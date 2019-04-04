@@ -1,0 +1,132 @@
+<div class="page" data-name="my-account">
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="left">
+				<a href="#" class="link" onclick="goToBack();">
+					<i class="fal fa-arrow-left" style="color: white;"></i>
+				</a>
+			</div>
+			<div class="title" style="color: white;width:  100%;">Datos personales</div>
+			<div class="right">
+				<a href="#" id="deleteDates" class="link" style="display: none;">
+					<i class="fas fa-trash" style="color: white;"></i>
+				</a>
+				<a href="#" id="registerDates" class="link">
+					<i class="fal fa-check" style="color: white;"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="page-content">
+		<div style="display: flex;justify-content: center;align-items: center;position: relative;padding-bottom: 4px;">
+			<div>
+				<div style="text-align: center;margin: 24px 0;position: relative;height: 96px;width: 96px; margin-bottom: 5px;" class="">
+					<a href="#" class="button popover-open" data-popover=".popover-add-picture-profile" style="position: absolute;right: calc(100% - 96px);width: 90px;min-width: 90px;height: 90px;padding: 0;display: flex;justify-content: center;align-items: center;border-radius: 50%;bottom: 6px;z-index: 999999;">
+						<img src="img/avatar-default-alt.png" id="currentPicProfile" style="width: 90px;height: 90px;">
+					</a>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div id="" class="list no-hairlines-md" style="margin: 0;">
+				<ul>
+					<li class="item-content item-input">
+						<div class="item-inner">
+							<div class="item-title item-label">Nombres (*)</div>
+							<div class="item-input-wrap">
+								<input type="text" placeholder="" id="my-account-name">
+								<span class="input-clear-button"></span>
+							</div>
+						</div>
+					</li>
+					<li class="item-content item-input">
+						<div class="item-inner">
+							<div class="item-title item-label">Apellidos (*)</div>
+							<div class="item-input-wrap">
+								<input type="text" placeholder="" id="my-account-last-name">
+								<span class="input-clear-button"></span>
+							</div>
+						</div>
+					</li>
+					<li><a class="item-content item-link" href="/location/"> <div class="item-inner"> <div class="item-title">Dirección completa <span class="labelsForProfessional" style="display: none;">(*)</span></div> </div> </a> </li>
+					<!--<li class="item-content item-input">
+						<div class="item-inner">
+							<div class="item-title item-label">Dirección completa</div>
+							<div class="item-input-wrap">
+								<input type="text" placeholder="" id="my-location">
+								<span class="input-clear-button"></span>
+							</div>
+						</div>
+					</li>-->
+					<li class="item-content item-input">
+						<div class="item-inner">
+							<div class="item-title item-label">Código postal / Ciudad</div>
+							<div class="item-input-wrap">
+								<input type="text" placeholder="" id="my-account-code-postal">
+								<span class="input-clear-button"></span>
+							</div>
+						</div>
+					</li>
+					<li class="item-content item-input">
+						<div class="item-inner">
+							<div class="item-title item-label">Teléfono <span class="labelsForProfessional" style="display: none;">(*)</span></div>
+							<div class="item-input-wrap">
+								<input type="text" placeholder="" id="my-account-phone">
+								<span class="input-clear-button"></span>
+							</div>
+						</div>
+					</li>
+					<li class="item-content item-input">
+						<div class="item-inner">
+							<div class="item-title item-label">Teléfono fijo</div>
+							<div class="item-input-wrap">
+								<input type="text" placeholder="" id="my-account-phone2">
+								<span class="input-clear-button"></span>
+							</div>
+						</div>
+					</li>
+					<li class="item-content item-input" id="containerdni" style="display: none;">
+						<div class="item-inner">
+							<div class="item-title item-label">dni / nif <span class="labelsForProfessional" style="display: none;">(*)</span></div>
+							<div class="item-input-wrap">
+								<input type="text" placeholder="" class="" id="my-account-dni">
+								<span class="input-clear-button"></span>
+							</div>
+						</div>
+					</li>
+					<li class="item-content item-input">
+						<div class="item-inner">
+							<div class="item-title item-label">Correo electrónico</div>
+							<div class="item-input-wrap">
+								<input type="email" placeholder="" class="" id="my-account-email">
+								<span class="input-clear-button"></span>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="list" id="containerTerm" style="margin: 0; display: none;">
+                <ul>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input type="checkbox" name="aceptMA" value="1">
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Acepto los <a href="#" style="white-space: normal;" class="popup-open" onclick="term(0);" data-popup=".popup-terminos">Términos y Condiciones</a></div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="item-checkbox item-content">
+                            <input type="checkbox" name="aceptMA" value="1">
+                            <i class="icon icon-checkbox"></i>
+                            <div class="item-inner">
+                                <div class="item-title">Acepto la <a href="#" style="white-space: normal;" onclick="term(1);" class="popup-open" data-popup=".popup-terminos">Política de privacidad</a></div>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+		</div>
+	</div>
+</div>

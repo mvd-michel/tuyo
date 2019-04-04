@@ -1,0 +1,80 @@
+<div class="page" data-name="request-agenda-user">
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="left">
+				<a href="#" class="link" onclick="goToBack();">
+					<i class="fal fa-arrow-left" style="color: white;"></i>
+				</a>
+			</div>
+			<div class="title" style=" color: white;">Ficha</div>
+			<div class="right">
+				<a href="#" id="confirmRequest" class="link">
+					<i class="fal fa-check" style="color: white;"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="page-content">
+		<div>
+			<div id="" class="list no-hairlines-md" style="margin: 0;margin-top:  10px;">
+				<ul>
+					<li class="item-content item-input item-input-with-value">
+						<div class="item-inner">
+							<div class="item-title item-label">Clientes</div>
+							<div class="item-input-wrap">
+								<select placeholder="" class="input-with-value" id="clientesProfesional">
+								</select>
+							</div>
+						</div>
+					</li>
+					<li class="item-content item-input item-input-with-value">
+						<div class="item-inner">
+							<div class="item-title item-label">Tratamiento</div>
+							<div class="item-input-wrap">
+								<select placeholder="" class="input-with-value" id="tratamientosProfesional">
+								</select>
+							</div>
+						</div>
+					</li>
+					<li class="item-content item-input">
+						<div class="item-inner">
+							<div class="item-title item-label">Nombre</div>
+							<div class="item-input-wrap">
+								<input type="text" placeholder="" id="name-client-request">
+								<span class="input-clear-button"></span>
+							</div>
+						</div>
+					</li>
+					<li class="item-content item-input">
+						<div class="item-inner">
+							<div class="item-title item-label">Apellidos</div>
+							<div class="item-input-wrap">
+								<input type="text" placeholder="" id="last-name-client-request">
+								<span class="input-clear-button"></span>
+							</div>
+						</div>
+					</li>
+					<li><a class="item-content item-link" href="/location/?n=1"> <div class="item-inner"> <div class="item-title">Dirección completa</div> </div> </a> </li>
+					<li class="item-content item-input">
+						<div class="item-inner">
+							<div class="item-title item-label">Código postal</div>
+							<div class="item-input-wrap">
+								<input type="text" placeholder="" id="postal-client-request">
+								<span class="input-clear-button"></span>
+							</div>
+						</div>
+					</li>
+					<li class="item-content item-input">
+						<div class="item-inner">
+							<div class="item-title item-label">Teléfono</div>
+							<div class="item-input-wrap">
+								<input type="text" placeholder="" id="phone-client-request">
+								<span class="input-clear-button"></span>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

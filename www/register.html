@@ -1,0 +1,139 @@
+<div class="page" data-name="register">
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="left">
+				<a href="#" class="link back">
+					<i class="fal fa-arrow-left" style="color: white;"></i>
+				</a>
+			</div>
+			<div class="title" style="color: white;">Crear cuenta</div>
+			<div class="right">
+				<a href="#" id="validRegister" class="link">
+					<i class="fal fa-check" style="color: white;"></i>
+				</a>
+			</div>
+		</div>
+	</div>	
+	<div class="page-content">
+		<div class="form-wrapper">
+			<div id="form-register">
+				<div class="list no-hairlines-md" style="margin:  0;margin-top:  10px;">
+					<ul>
+						<li class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">Teléfono</div>
+								<div class="item-input-wrap">
+									<input type="text" placeholder="" id="register-phone" name="phone" required="" validate="" data-error-message="Este campo es requerido.">
+									<span class="input-clear-button"></span>
+								</div>
+							</div>
+						</li>
+						<li class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">Correo electronico</div>
+								<div class="item-input-wrap">
+									<input type="email" placeholder="" id="register-email" name="email" required="" validate="" data-error-message="Correo electrónico no válido.">
+									<span class="input-clear-button"></span>
+								</div>
+							</div>
+						</li>
+						<li class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">Repetir correo electronico</div>
+								<div class="item-input-wrap">
+									<input type="email" placeholder="" id="register-re-email" name="re-email" required="" validate="" data-error-message="Correo electrónico no válido.">
+									<span class="input-clear-button"></span>
+								</div>
+							</div>
+						</li>
+						<li class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">Clave</div>
+								<div class="item-input-wrap">
+									<input type="password" placeholder="" id="register-password" name="password" required="" validate="" data-error-message="Este campo es requerido.">
+									<span class="input-clear-button"></span>
+								</div>
+							</div>
+						</li>
+						<li class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">Confirmar clave</div>
+								<div class="item-input-wrap">
+									<input type="password" placeholder="" id="register-password-confirm" name="password-confirm" required="" validate="" data-error-message="Este campo es requerido.">
+									<span class="input-clear-button"></span>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				
+                <div class="list" style="margin: 0;">
+                    <ul>
+                        <li>
+                            <label class="item-checkbox item-content">
+                                <input type="checkbox" name="acept" value="1">
+                                <i class="icon icon-checkbox"></i>
+                                <div class="item-inner">
+                                    <div class="item-title">Acepto los <a href="#" style="white-space: normal;" class="popup-open" onclick="term(0);" data-popup=".popup-terminos">Términos y Condiciones</a></div>
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="item-checkbox item-content">
+                                <input type="checkbox" name="acept" value="1">
+                                <i class="icon icon-checkbox"></i>
+                                <div class="item-inner">
+                                    <div class="item-title">Acepto la <a href="#" style="white-space: normal;" onclick="term(1);" class="popup-open" data-popup=".popup-terminos">Política de privacidad</a></div>
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+				
+				<div class="block-title" style=" margin-bottom: 10px; font-size: 14px; color: black;">Quieres unirte a nosotros?</div>
+				<div class="list">
+					<ul>
+					    <li class="item-content item-input item-input-with-value">
+                            <div class="item-inner"><div class="item-title item-label">Tipo de usuario</div>
+                                <div class="item-input-wrap input-dropdown-wrap">
+                                    <select name="type-account" placeholder="Please choose..." class="input-with-value">
+                                        <option value="1" selected>Usuario</option>
+                                        <option value="2">Profesional</option>
+                                        <option value="3">Centro de salud</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </li>
+						<!--<li style="display: none;">
+							<label class="item-radio item-content" style="border-bottom: 1px solid rgba(0,0,0,.12);border-top: 1px solid rgba(0,0,0,.12);">
+								<input type="radio" name="type-account" value="1" checked="">
+								<i class="icon icon-radio"></i>
+								<div class="item-inner">
+									<div class="item-title">Usuario</div>
+								</div>
+							</label>
+						</li>
+						<li>
+							<label class="item-radio item-content" style=" border-bottom: 1px solid rgba(0,0,0,.12);">
+								<input type="radio" name="type-account" value="2">
+								<i class="icon icon-radio"></i>
+								<div class="item-inner">
+									<div class="item-title">Profesional</div>
+								</div>
+							</label>
+						</li>
+						<li>
+							<label class="item-radio item-content" style=" border-bottom: 1px solid rgba(0,0,0,.12);">
+								<input type="radio" name="type-account" value="3">
+								<i class="icon icon-radio"></i>
+								<div class="item-inner">
+									<div class="item-title">Centro de salud</div>
+								</div>
+							</label>
+						</li>-->
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

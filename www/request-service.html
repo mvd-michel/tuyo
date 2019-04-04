@@ -1,0 +1,62 @@
+<div class="page" data-name="request-service">
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="left">
+				<a href="#" class="link back">
+					<i class="fal fa-arrow-left"></i>
+				</a>
+			</div>
+			<div class="title">Solicitar servicio</div>
+			<div class="right"></div>
+		</div>
+	</div>
+	<div class="page-content" style="background-color: rgb(255, 152, 34);">
+		<div class="page-content-inner" style="opacity: 0;">
+			<div style="height: calc(100% - 140px);display: flex;justify-content: center;align-items: center;position: relative;">
+				<a id="svc-detail-open-chat" href="#" class="button" style="position: absolute;right: 10px;top: 8px;color: rgba(0, 0, 0, 0.65);font-size: 36px;height: 64px;width: 64px;display:  flex;justify-content:  center;align-items:  center;border-radius: 50%;">
+					<i class="far fa-comments"></i>
+				</a>
+				<div>
+					<div style="text-align: center;width: 114px;height: 114px;margin: 16px auto 0 auto;">
+						<img id="svc-details-user-avatar" src="img/avatar-default.png" style=" width: 96px; height: 96px; border-radius: 50%;">
+					</div>
+					<div style=" text-align: center; font-size: 28px; color: rgba(0, 0, 0, 0.65); font-family: 'Quicksand';" id="svc-detail-user"></div>
+					<div style=" margin-top: -4px;">
+						<div>
+							<div class="rateyo-box">
+								<div id="rate-user-bg"></div>
+								<div id="rate-user"></div>
+							</div>
+						</div>
+					</div>
+					<div style=" text-align: center; margin-top: 8px; color: rgba(0, 0, 0, 0.65);" id="svc-detail-name"></div>
+					<div style="text-align: center;margin-top: 8px;color: rgba(0, 0, 0, 0.65);font-size: 24px;font-family: 'Roboto-Medium';display: flex;justify-content: center;align-items: center;"><span id="svc-detail-price"></span>
+						<i class="far fa-euro-sign" style=" font-size: 20px; margin-left: 6px;"></i>
+					</div>
+				</div>
+			</div>
+			<div style=" position: absolute; width: 100%; bottom: 0;">
+				<div style="display: flex;justify-content: center;align-items: center;border-top: 1px solid rgba(0, 0, 0, 0.075);border-bottom: 1px solid rgba(0, 0, 0, 0.075);padding: 16px 8px;color: rgba(0, 0, 0, 0.65);">
+					<div style="width: 30%;">
+						<div></div>
+						<div></div>
+					</div>
+					<div style="width: 156px;font-weight: bold;text-align: center;">
+						<div style="color: rgba(0, 0, 0, 0.65);font-size: 15px;"> Ultima conexion</div>
+						<div style="color: rgba(0, 0, 0, 0.45);font-size: 13px;">
+							<i class="fas fa-clock"></i> <span id="svc-detail-user-connect-timeago"></span>
+						</div>
+					</div>
+					<div style="width: 30%;">
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div style=" height: 64px; display: flex; justify-content: center; align-items: center;">
+					<a href="#" id="make-request-service" class="button button-raised" style="background-color: rgba(0, 0, 0, 0.85);margin: 0 16px;width: 100%;color: rgba(255, 255, 255, 0.55);display: flex;align-items: center;justify-content: center;font-size: 15px; display: none;">
+						<i class="fas fa-check-circle" style=" margin-right: 8px; font-size: 15px;"></i>Solicitar servicio
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>

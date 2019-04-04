@@ -1,0 +1,33 @@
+<div class="page" data-name="pics">
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="left">
+				<a href="#" class="link" onclick="goToBack();">
+					<i class="fal fa-arrow-left" style="color: white;"></i>
+				</a>
+			</div>
+			<div class="title" style="color: white;width:  100%;">Fotos</div>
+			<div class="right">
+				<div id="containerFirstOption" style="display: flex;">
+                    <a class="link sortable-action" style=" color: white; font-size: 15px;">Ordenar</a>
+					<a href="#" class="link icon-only popup-open" data-popup=".popup-add-pic" style="color: white; font-size:  15px;">
+						<i class="fal fa-plus" style="margin-right: 5px; font-size: 15px;"></i> fotos
+					</a>
+				</div>
+				<div id="containerOtherOptions" style="display: none;">
+					<a href="#" id="modifyPic" class="link icon-only popup-open" data-popup=".popup-add-pic">
+						<i class="fas fa-edit" style="color: white;"></i>
+					</a>
+					<a href="#" id="deletePic" class="link icon-only deletePic">
+						<i class="fas fa-trash" style="color: white;"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="page-content" style="overflow-x: hidden;">
+		<div class="list media-list sortable">
+			<ul id="listPics"></ul>
+		</div>
+	</div>
+</div>

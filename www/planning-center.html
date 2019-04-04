@@ -1,0 +1,132 @@
+<div class="page" data-name="planning-center">
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="left">
+				<a href="#" class="link" onclick="goToBack();">
+					<i class="fal fa-arrow-left" style="color: white;"></i>
+				</a>
+			</div>
+			<div class="title" style="color: white;width:  100%;">Alta agenda centro</div>
+			<div class="right">
+				<a href="#" id="saveAgendaCenter" class="link">
+					<i class="fas fa-check" style="color: white;"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="page-content">
+		<div>
+			 <div id="" class="list no-hairlines-md" style="margin-bottom: 0;">
+				<ul>
+					<li class="item-content item-input item-input-with-value" style=" border-top: 1px solid rgba(0, 0, 0, 0.04); margin-left: 15px; padding-left: 0; margin-right: 15px; padding-right: 0;">
+						<div class="item-inner" style=" padding-right: 0;">
+							<div class="item-title item-label">Profesional</div>
+							<div class="item-input-wrap">
+								<select placeholder="" class="input-with-value" id="profesionalesAgenda"><option value="">Seleccione</option></select>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="list no-hairlines-md" style="margin-top:  0; margin-bottom:  0;">
+				<ul>
+					<li><div class="block-title" style="margin-top:  0;margin-bottom:  0;color: rgba(0, 0, 0, 0.65);font-size: 13px;">Desde</div></li>
+					<li>
+						<div class="item-content item-input">
+							<div class="item-inner" style=" padding-top: 0;">
+								<div class="item-input-wrap">
+									<input type="text" placeholder="" readonly="" id="calendarFromCenter" class="">
+								</div>
+							</div>
+						</div>
+					</li>
+					<li><div class="block-title" style="margin-top:  0;margin-bottom:  0;color: rgba(0, 0, 0, 0.65);font-size: 13px;">Hasta</div></li>
+					<li>
+						<div class="item-content item-input">
+							<div class="item-inner" style=" padding-top: 0;">
+								<div class="item-input-wrap">
+									<input type="text" placeholder="" readonly="" id="calendarUntilCenter" class="">
+								</div>
+							</div>
+						</div>
+					</li>
+					<li class="item-content item-input item-input-with-value row" style=" margin-left: 15px; padding-left: 0; margin-right: 15px; padding-right: 0;">
+						<div class="item-inner col-50" style="padding-right: 0;padding-top:  0;">
+							<div class="item-title item-label">Trabajo Desde las</div>
+							<div class="item-input-wrap">
+								<select placeholder="" class="input-with-value" id="calendarFromHoursCenter"><option value="">Tratamiento</option></select>
+							</div>
+						</div>
+						<div class="item-inner col-50" style="padding-right: 0;padding-top:  0;">
+							<div class="item-title item-label">Hasta las</div>
+							<div class="item-input-wrap">
+								<select placeholder="" class="input-with-value" id="calendarUntilHoursCenter"><option value="">Tratamiento</option></select>
+							</div>
+						</div>
+					</li>
+					<li class="item-content item-input item-input-with-value row" style=" margin-left: 15px; padding-left: 0; margin-right: 15px; padding-right: 0;">
+						<div class="item-inner col-50" style="padding-right: 0;padding-top:  0;">
+							<div class="item-title item-label">Descanso Desde las</div>
+							<div class="item-input-wrap">
+								<select placeholder="" class="input-with-value" id="calendarFromHoursCenterBreak"><option value="">Tratamiento</option></select>
+							</div>
+						</div>
+						<div class="item-inner col-50" style="padding-right: 0;padding-top:  0;">
+							<div class="item-title item-label">Hasta las</div>
+							<div class="item-input-wrap">
+								<select placeholder="" class="input-with-value" id="calendarUntilHoursCenterBreak"><option value="">Tratamiento</option></select>
+							</div>
+						</div>
+					</li>
+					<li class="item-content item-input">
+						<div class="item-inner">
+							<div class="item-title item-label">Visitas juntas</div>
+							<div class="item-input-wrap">
+								<div class="range-slider range-slider-init range-slider-label rangeDistance" data-label="true" style=" padding-top: 10px;">
+									<input name="range" id="visitCenter" type="range" value="1" min="1" max="15" step="1">
+									<div class="range-bar"><div class="range-bar-active" style="width: 15%;"></div></div>
+								</div>
+							</div>
+						</div>
+					</li>
+                </ul>
+            </div>
+            <div class="list no-hairlines-md" style="margin-top: 0;margin-bottom:  0;">
+				<ul>
+					<li>
+						<a class="item-link smart-select smart-days-agenda-center smart-select-init" data-open-in="popover">
+							<select name="superhero" multiple="" class="input-with-value" id="daysAgendaCenter">
+								<option value="1" selected="">Lunes</option>
+								<option value="2" selected="">Martes</option>
+								<option value="3" selected="">Miércoles</option>
+								<option value="4" selected="">Jueves</option>
+								<option value="5" selected="">Viernes</option>
+								<option value="6" selected="">Sábado</option>
+								<option value="0" selected="">Domingo</option>
+							</select>
+							<div class="item-content">
+								<div class="item-inner" id="containerLabelDaysAgendaCenter">
+									<div class="item-title">Días</div>
+								</div>
+							</div>
+						</a>
+					</li>
+					<li class="item-content item-input row" style=" padding-left: 20px; padding-right: 10px; margin: 0;">
+						<div class="item-inner col-100">
+							<div class="item-title item-label">Periodicitad entre visitas</div>
+							<div class="item-input-wrap">
+								<!--<input type="number" placeholder="" class="" id="valueAgendaCenter" style="text-align: right;padding-right: 40px;padding-bottom:  2px;">-->
+								<select placeholder="" class="input-with-value" id="valueAgendaCenter">
+									<option value="30">30</option>
+									<option value="45">45</option>
+									<option value="60">60</option>
+								</select>
+								<span style=" position: absolute; top: 5px; right: 0; color: rgba(0, 0, 0, 0.65);">mm</span>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,78 @@
+<div class="page" data-name="personal">
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="left">
+				<a href="#" class="link" onclick="goToBack();">
+					<i class="fal fa-arrow-left" style="color: white;"></i>
+				</a>
+			</div>
+			<div class="title" style="color: white;width:  100%;">alta-baja personal centro</div>
+			<!--<div class="right">
+				<a href="#" id="" class="link">
+					<i class="fal fa-check" style="color: white;"></i>
+				</a>
+			</div>-->
+		</div>
+	</div>
+	<div class="page-content">
+		<div>
+			<div class="list no-hairlines-md" style="margin: 0;margin-top:  25px;">
+				<ul>
+					<li class="item-content item-input">
+						<div class="item-inner">
+							<div class="item-title item-label">CIF profesionales</div>
+							<div class="item-input-wrap">
+								<input type="text" class="" id="cifp" style=" border-bottom: 1px solid rgba(158, 158, 158, 0.15);">
+								<a class="button button-outline" style="position: absolute;top: 5px;right: 0;color: #0096fb;min-width:  30px;border:  0;" href="#" id="searchdni"><i class="fal fa-check"></i></a>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="list no-hairlines-md" style="margin: 0;">
+				<ul>
+					<li class="item-content item-input">
+						<div class="item-inner">
+							<div class="item-title item-label">Fecha efectividad</div>
+							<div class="item-input-wrap">
+								<input type="text" class="" id="dateE" style=" position: absolute; z-index: 2;">
+								<span style=" position: absolute; top: 5px; right: 0; color: rgba(0, 0, 0, 0.65); z-index: 1;"><i class="fas fa-calendar-alt"></i></span>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div id="" class="list simple-list" style="margin: 0;margin-top:  -5px;">
+				<ul>
+					<li style=" margin-right: 15px; padding-right: 0;">
+						<span id="labelAction">alta</span>
+						<label class="toggle toggle-init color-lightgreen">
+							<input type="checkbox" id="alta">
+							<span class="toggle-icon"></span>
+						</label>
+					</li>
+				</ul>
+			</div>
+			<div class="list media-list">
+                <ul>
+                    <li id="containerUserPersonal" style="display: none;">
+                        <div class="item-content">
+							<div class="item-media"><img src="#" id="imgUser" width="44" style=" border-radius: 50%;"></div>
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title" id="labelTitleUser"></div>
+                                </div>
+                                <div class="item-subtitle" id="labelTaxsUser"></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item-content item-input">
+						<div class="item-inner">
+							<button class="button button-big button-raised button-fill submit-form" id="savePersonal" style="display:  none;">Confirmar</button>
+						</div>
+					</li>
+                </ul>
+            </div>
+		</div>
+	</div>
+</div>

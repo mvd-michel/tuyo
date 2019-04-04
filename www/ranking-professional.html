@@ -1,0 +1,84 @@
+<div class="page" data-name="ranking-professional">
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="left">
+				<a href="#" class="link" onclick="goToBack();">
+					<i class="fal fa-arrow-left" style="color: white;"></i>
+				</a>
+			</div>
+			<div class="title" style="color: white;width:  100%;">Valoración profesional</div>
+			<div class="right">
+				<a href="#" id="saveRanking" class="link">
+					<i class="fal fa-check" style="color: white;"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="page-content">
+		<div class="list media-list">
+			<ul>
+				<li>
+					<div class="item-content">
+						<div class="item-media"><img src="img/avatar-default.png" id="imgUserRanking" width="44"></div>
+						<div class="item-inner">
+							<div class="item-title-row">
+								<div class="item-title" id="labelTitleUserRanking"> Nombre / Apellido</div>
+								<div class="item-after"><a href="#" class="link" data-status="0" id="favoriteRating"><i class="fal fa-heart" style=" font-size: 20px;"></i></a></div>
+							</div>
+							<div class="item-subtitle" id="labelTaxsUserRanking" style=" color: gray;">**** (4)</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div id="" class="list no-hairlines-md" style="margin: 0;">
+			<ul>
+				<li class="item-content item-input">
+					<div class="item-inner">
+						<div class="item-title item-label">Puntualidad</div>
+						<div class="item-input-wrap">
+							<div class="range-slider range-slider-init range-slider-label rangeP" data-label="true" style=" padding-top: 10px;">
+								<input name="range" id="puntualidad" type="range" value="1" min="1" max="5" step="1">
+								<div class="range-bar"><div class="range-bar-active" style="width: 15%;"></div></div>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="item-content item-input">
+					<div class="item-inner">
+						<div class="item-title item-label">Amabilidad</div>
+						<div class="item-input-wrap">
+							<div class="range-slider range-slider-init range-slider-label rangeA" data-label="true" style=" padding-top: 10px;">
+								<input name="range" id="amabilidad" type="range" value="1" min="1" max="5" step="1">
+								<div class="range-bar"><div class="range-bar-active" style="width: 15%;"></div></div>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="item-content item-input">
+					<div class="item-inner">
+						<div class="item-title item-label">Tratamiento profesional</div>
+						<div class="item-input-wrap">
+							<div class="range-slider range-slider-init range-slider-label rangeT" data-label="true" style=" padding-top: 10px;">
+								<input name="range" id="tratamientoProfesional" type="range" value="1" min="1" max="5" step="1">
+								<div class="range-bar"><div class="range-bar-active" style="width: 15%;"></div></div>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<p style=" margin-left: 15px; margin-bottom: 0;">Comentario paciente</p>
+		<div class="list no-hairlines-md" style=" margin: 0;">
+			<ul>
+				<li class="item-content item-input">
+					<div class="item-inner" style="padding-top: 0;">
+						<!--<div class="item-title item-label">Comentario</div>-->
+						<div class="item-input-wrap">
+							<textarea name="bio" class="resizable" placeholder="" style="" id="comentarioPaciente" maxlength="200" style=" background: white !important;"></textarea>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

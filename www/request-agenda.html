@@ -1,0 +1,85 @@
+<div class="page" data-name="request-agenda">
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="left">
+				<a href="#" class="link" onclick="goToBack();">
+					<i class="fal fa-arrow-left" style="color: white;"></i>
+				</a>
+			</div>
+			<div class="title" style="color: white;width:  100%;">Solicitud de visita</div>
+		</div>
+	</div>
+	<div class="page-content">
+		<div class="list media-list" style="margin: 0;">
+		  <ul>
+		  	<li class="item-content item-input item-input-with-value">
+				<div class="item-inner">
+					<div class="item-title item-label">Motivo</div>
+					<div class="item-input-wrap input-dropdown-wrap">
+						<select class="input-with-value" id="motivoRequestAgenda"></select>
+					</div>
+				</div>
+			  </li>
+			<li>
+			  <div class="item-content">
+			    <div class="item-media"><img src="#" alt="" id="imgUserRequestAgenda" style=" width: 40px;"></div>
+				<div class="item-inner">
+				  <div class="item-title-row">
+					<div class="item-title" id="usernameRequestAgenda"></div>
+					<div class="item-after" id="labelStarsRequestAgenda"><i class="fas fa-star" style=" color: #f5b33b;"></i><i class="fas fa-star-half" style=" color: #f5b33b;"></i><i class="far fa-star" style=" color: #f5b33b;"></i><i class="far fa-star" style=" color: #f5b33b;"></i><i class="far fa-star" style=" color: #f5b33b;"></i></div>
+				  </div>
+				  <div class="item-subtitle"></div>
+                    <div class="item-text" id="labelTaxsProfRequestAgenda" style=" max-height: initial; -webkit-line-clamp: inherit;"></div>
+				</div>
+			  </div>
+			  </li>
+			  <li class="item-content item-input item-input-with-value">
+				<div class="item-inner">
+					<div class="item-title item-label">Sesión</div>
+					<div class="item-input-wrap input-dropdown-wrap">
+						<select class="input-with-value" id="sessionRequestAgenda">
+							<option value="1" selected>1</option>
+							<option value="Diaria">Diaria</option>
+							<option value="Semanal">Semanal</option>
+							<option value="Quincenal">Quincenal</option>
+							<option value="Mensual">Mensual</option>
+						</select>
+					</div>
+				</div>
+			  </li>
+			  <li>
+			  <div class="item-content">
+				<div class="item-inner">
+				  <div class="item-title-row" style=" border-bottom: 1px solid rgba(0, 0, 0, 0.12); padding-bottom: 10px;">
+					  <div class="item-title" id="dateRequestAgenda"></div>
+				  </div>
+				</div>
+			  </div>
+			</li>
+		  </ul>
+		</div>
+		<a class="button button-fill" href="#" id="labelVisitaDomicilio" style="margin: 10px;background-color: red !important;color: black;display:  none;">Esta visita no es en el domicilio</a>
+		<a class="button button-fill" href="#" id="saveRequestAgenda" style=" margin: 10px; ">Confirmar</a>
+		<a class="button button-fill" href="javascript: app.router.back();" style=" margin: 10px; ">Cambiar fecha</a>
+        <!--<p style=" margin-left: 15px; margin-bottom: 0;">Comentario</p>-->
+		<div class="list no-hairlines-md" style=" margin: 0;">
+			<ul>
+			    <li class="item-content item-input">
+                    <div class="item-inner">
+                        <div class="item-title item-label">Comentario</div>
+                        <div class="item-input-wrap">
+                            <textarea name="bio" class="resizable" placeholder="Información adicional" style="" id="commentRequest" maxlength="200"></textarea>
+                        </div>
+                    </div>
+                </li>
+				<!--<li class="item-content item-input">
+					<div class="item-inner" style="padding-top: 0;">
+						<!--<div class="item-title item-label">Comentario</div>- ->
+						<div class="item-input-wrap">
+							<input type="text" class="messages-content" id="commentRequest" style=" background: white !important;"><span class="input-clear-button"></span></div>
+					</div>
+				</li>-->
+			</ul>
+        </div>
+	</div>
+</div>

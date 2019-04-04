@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="theme-color" content="#0096fb">
+	<title>Tuyo</title>
+	<link href="fonts/Roboto/ss.css" rel="stylesheet">
+	<link href="fonts/Quicksand/ss.css" rel="stylesheet">
+	<link href="fonts/Montserrat/ss.css" rel="stylesheet">
+	<!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">-->
+	<!--
+    <link rel="stylesheet" href="lib/fontawesome/font/ss.css">
+    <link rel="stylesheet" href="lib/fontawesome/fontawesome-all.min.css">
+    -->
+	<link rel="stylesheet" href="lib/fa.css">
+	<link rel="stylesheet" href="lib/f7/css/framework7.md.css">
+	<link rel="stylesheet" href="lib/flexboxgrid.min.css">
+	<link rel="stylesheet" href="lib/hamburgers.css">
+	<link rel="stylesheet" href="lib/magic.min.css">
+	<!--<link rel="stylesheet" href="lib/rateyo/jquery.rateyo.min.css">-->
+	<link rel="stylesheet" href="lib/la-ball-spin.css">
+	<link rel="stylesheet" href="css/my-app.css">
+</head>
+
+<body>
+	<div id="app">
+		<div class="statusbar"></div>
+		<div class="panel panel-left panel-cover" style="">
+			<div style="padding: 5px 0 16px 0;">
+				<!--<div style="width: 64px;height: 64px;text-align: center;margin: 0 auto;">
+					<img id="user-avatar" src="img/avatar-default.png" alt="" style="width: 64px; height: 64px; border-radius: 50%;">
+				</div>
+				<div style=" text-align: center; color: #4C4C4C; font-family: 'Roboto-Light'; margin-top: 8px; font-size: 20px;" id="user-fullname"></div>-->
+			</div>
+			<div id="panel-left-options" class="list links-list">
+				<div id="menuPacientes" class="menus" style="display: none;">
+					<ul>
+						<li class="button item-content panel-close" data-href="/my-account/">
+							<div class="item-media">
+								<i class="fas fa-user-circle"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Datos personales</div>
+							</div>
+						</li>
+						<li class="button item-content panel-close" data-href="/filtro/?page=home">
+							<div class="item-media">
+								<i class="fas fa-filter"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Filtros</div>
+							</div>
+						</li>
+						<li class="button item-content panel-close" data-href="/visit-pending/">
+							<div class="item-media">
+								<i class="fas fa-tasks"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Visitas pendientes</div>
+							</div>
+						</li>
+						<li class="button item-content panel-close" data-href="/professionals/">
+							<div class="item-media">
+								<i class="fas fa-users"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Profesionales</div>
+							</div>
+						</li>
+						<!--<li class="button item-content panel-close" data-href="/valoraciones/">
+							<div class="item-media">
+								<i class="fas fa-star-exclamation"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Valoración profesionales</div>
+							</div>
+						</li>-->
+						<li class="button item-content panel-close" data-href="/logout/">
+							<div class="item-media">
+								<i class="fas fa-sign-out-alt"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Cerrar sesión</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div id="menuProfesionales" class="menus" style="display: none;">
+					<ul>
+						<li class="button item-content panel-close" data-href="/my-account/?page=home">
+							<div class="item-media">
+								<i class="fas fa-user-circle"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Datos personales</div>
+							</div>
+						</li>
+						<li class="button item-content panel-close" data-href="/complement/?page=home">
+							<div class="item-media">
+								<i class="fas fa-user-circle"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Datos complementarios</div>
+							</div>
+						</li>
+						<li class="button item-content panel-close" data-href="/mutuas/?page=home&es_profesional=1">
+							<div class="item-media">
+								<i class="fas fa-folder-open"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Mutuas</div>
+							</div>
+						</li>
+						<li class="button item-content panel-close" data-href="/pics/">
+							<div class="item-media">
+								<i class="fas fa-images"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Fotos</div>
+							</div>
+						</li>
+						<li class="button item-content panel-close" data-href="/planning-professional/">
+							<div class="item-media">
+								<i class="fas fa-folder"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Planning</div>
+							</div>
+						</li>
+						<li class="button item-content panel-close" data-href="/taxs/">
+							<div class="item-media">
+								<i class="fas fa-money-bill"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Tarifas</div>
+							</div>
+						</li>
+						<li class="button item-content panel-close" data-href="/offers/">
+							<div class="item-media">
+								<i class="fas fa-bookmark"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Ofertas</div>
+							</div>
+						</li>
+						<li class="button item-content panel-close" data-href="/logout/">
+							<div class="item-media">
+								<i class="fas fa-sign-out-alt"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Cerrar sesión</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div id="menuCentro" class="menus" style="display: none;">
+					<ul>
+						<li class="button item-content panel-close" data-href="/center-profile/?page=home">
+							<div class="item-media">
+								<i class="fas fa-user-circle"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Datos centro</div>
+							</div>
+						</li>
+						<li class="button item-content panel-close" data-href="/mutuas/?page=home&es_centro=1">
+							<div class="item-media">
+								<i class="fas fa-folder-open"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Mutuas</div>
+							</div>
+						</li>
+						<li class="button item-content panel-close" data-href="/pics/">
+							<div class="item-media">
+								<i class="fas fa-images"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Fotos</div>
+							</div>
+						</li>
+						<li class="button item-content panel-close" data-href="/personal/">
+							<div class="item-media">
+								<i class="fas fa-edit"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Alta-baja personal</div>
+							</div>
+						</li>
+						<li class="button item-content panel-close" data-href="/professionals-center/?page=home">
+							<div class="item-media">
+								<i class="fas fa-folder-open"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Centro de salud personal</div>
+							</div>
+						</li>
+						<li class="button item-content panel-close" data-href="/planning-center/">
+							<div class="item-media">
+								<i class="fas fa-folder"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Planning</div>
+							</div>
+						</li>
+						<li class="button item-content panel-close" data-href="/taxs/">
+							<div class="item-media">
+								<i class="fas fa-money-bill"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Tarifas</div>
+							</div>
+						</li>
+						<li class="button item-content panel-close" data-href="/offers/">
+							<div class="item-media">
+								<i class="fas fa-bookmark"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Ofertas</div>
+							</div>
+						</li>
+						<li class="button item-content panel-close" data-href="/logout/">
+							<div class="item-media">
+								<i class="fas fa-sign-out-alt"></i>
+							</div>
+							<div class="item-inner">
+								<div class="item-title">Cerrar sesión</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="sheet-choose-location-backdrop"></div>
+
+		<div class="view view-main view-init">
+			<div class="page" data-name="splash">
+				<div class="page-content">
+					<div class="splash-logo-box">
+						<div class="splash-logo-box-inner">
+							<div class="splash-logo-bg">
+								<div class="splash-logo"></div>
+							</div>
+							<div class="splash-dots">
+								<div class="splash-dot"></div>
+								<div class="splash-dot"></div>
+								<div class="splash-dot"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="popup popup-map">
+	  <div class="view">
+		<div class="page">
+		  <div class="navbar">
+			<div class="navbar-inner">
+			  <div class="title">Enviar ubicación</div>
+			  <div class="right">
+				<a class="link popup-close"><i class="fal fa-times"></i></a>
+				<a class="link" id="saveLocation"><i class="fal fa-check"></i></a>
+			  </div>
+			</div>
+		  </div>
+		  <div class="page-content">
+			<div class="map-canvas" data-snap-ignore="true">
+				<div style="position: absolute; z-index: 999; right: 0; padding: 8px; bottom: 0;"> <a href="#" id="register-pick-user-location" class="button button-fill" style="border-radius: 50%;width: 40px;height: 40px;min-width: 40px;display: flex;align-items: center;justify-content: center;"> <i class="fal fa-crosshairs" style=" font-size: 20px;"></i> </a> </div>
+				<div id="map" class="map"></div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+	
+	<div class="popup popup-terminos">
+	  <div class="view">
+		<div class="page">
+		  <div class="navbar">
+			  <div class="navbar-inner"> <div class="title" style=" color: white; width: 100%;" id="titleTerm">Términos y condiciones</div> <div class="right"> <a class="link popup-close" style=" color: white;"><i class="fal fa-times"></i></a> </div> </div>
+		  </div>
+		  <div class="page-content"></div>
+		</div>
+	  </div>
+	</div>
+	
+	<div class="popup popup-gallery">
+	  <div class="view">
+		<div class="page">
+		  <div class="navbar">
+			  <div class="navbar-inner"> <div class="title" style=" color: white; width: 100%;">Galería de imágenes</div> <div class="right"> <a class="link popup-close" style=" color: white;"><i class="fal fa-times"></i></a> </div> </div>
+		  </div>
+		  <div class="page-content"></div>
+		</div>
+	  </div>
+	</div>
+	
+	<div class="popup popup-add-pic">
+	  <div class="view">
+		<div class="page">
+		  <div class="navbar">
+			<div class="navbar-inner">
+				<div class="title" style=" color: white;">Agregar foto</div>
+			  <div class="right">
+				  <a class="link popup-close"><i class="fas fa-times" style=" color: white;"></i></a>
+				  <a class="link" id="savePic" data-i="0"><i class="fas fa-check" style=" color: white;"></i></a>
+			  </div>
+			</div>
+		  </div>
+		  <div class="page-content">
+			  <a href="#" class="button popover-open" data-popover=".popover-add-picture-profile" style="height: 90px;border-radius: 50%;margin-top:  20px;margin-bottom:  29px;">
+				<img src="img/avatar-default-alt.png" id="newPicAdd" style="width: 90px;height: 90px;">
+			 </a>
+			 <div id="" class="list no-hairlines-md" style="margin: 0;">
+				<ul>
+					<li class="item-content item-input">
+						<div class="item-inner">
+							<div class="item-title item-label">Texto</div>
+							<div class="item-input-wrap">
+								<input type="text" placeholder="" id="text-pic">
+								<span class="input-clear-button"></span>
+							</div>
+						</div>
+					</li>
+				 </ul>
+			  </div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+	<form action="http://server2.autotrack-gps.com/argi/api/operaciones.php?op=15" enctype="multipart/form-data" method="POST" class="form-ajax-submit-onchange">
+		<input type="file" style="display: none;" id="addFile" name="filePDF" accept="application/*">
+		<input type="text" id="dateFile" name="d" style="display: none;">
+		<input type="text" id="idUser" name="u" style="display: none;">
+		<input type="text" id="idServ" name="i" style="display: none;">
+		<input type="text" id="idReq" name="is" style="display: none;">
+	</form>
+
+	<div class="popover popover-gallery" style="width: 170px;">
+		<div class="popover-inner">
+			<div class="list">
+				<ul>
+					<li><a href="javascript:void(0);" class="list-button item-link" data-target="camera" onclick="API.addFile(this);"><i class="fal fa-camera" style="margin-right: 13px;margin-left:  2px;"></i> Cámara</a></li>
+					<li><a href="javascript:void(0);" class="list-button item-link" data-target="gallery" onclick="API.addFile(this);"><i class="fal fa-images" style=" margin-right: 12px;"></i> Galería</a></li>
+					<li><a href="javascript:void(0);" class="list-button item-link" data-target="document" onclick="API.addFile(this);"><i class="fal fa-file" style="margin-right: 15px;margin-left: 4px;"></i> Documento</a></li>
+				</ul>
+			</div>
+	  </div>
+	</div>
+	
+	<div class="popover popover-options-center" style="width: 170px;">
+		<div class="popover-inner">
+			<div class="list">
+				<ul>
+					<li><a href="/personal/" onclick="app.popover.close('.popover-options-center');" class="list-button item-link">Alta</a></li>
+					<li><a href="/personal/" onclick="app.popover.close('.popover-options-center');" class="list-button item-link">Baja</a></li>
+					<li><a href="javascript: app.sortable.enable('.sortable'); app.popover.close('.popover-options-center');" class="list-button item-link">Ordenar</a></li>
+				</ul>
+			</div>
+	  </div>
+	</div>
+
+	<div class="popover popover-add-picture-profile" style="width: 170px;">
+		<div class="popover-inner">
+			<div class="list">
+				<ul>
+					<li><a href="javascript:void(0);" class="list-button item-link" data-target="camera" onclick="API.addFileProfile(this);"><i class="fas fa-camera" style="margin-right: 13px;margin-left:  2px;"></i> Cámara</a></li>
+					<li><a href="javascript:void(0);" class="list-button item-link" data-target="gallery" onclick="API.addFileProfile(this);"><i class="fas fa-image" style=" margin-right: 12px;"></i> Galería</a></li>
+					<li id="containerButtonImages" style="display: none;"><a href="#" class="list-button item-link popup-open" onclick="app.popover.close();" data-popup=".popup-gallery"><i class="fas fa-images" style=" margin-right: 12px;"></i> Imágenes</a></li>
+				</ul>
+			</div>
+	  </div>
+	</div>
+
+	<div class="popup popup-home-service-search" style="margin-top:  48px;height: calc(100% - 48px);border-top: 1px solid rgba(0, 0, 0, 0.15);">
+		<div id="search-no-results" style="height: 100%; width: 100%; background: white; opacity: 0; transition: all 400ms; position: absolute; z-index: 999;">
+			<div style="position: absolute;top: 25%;z-index: 2;width: 90%;height: 50%;overflow: hidden;left: 0;right: 0;margin: 35px 15px;opacity: 0.10;"> <i class="fal fa-search" style="font-size: 40px;color: #b0b0b0;position: absolute;right: 10px;bottom: 100px;"></i> <i class="fal fa-search" style="font-size: 30px;color: #b0b0b0;right: 40px;position: absolute;top: 10px;"></i> <i class="fal fa-search" style="font-size: 40px;color: #b0b0b0;position: absolute;left: 35px;"></i> <i style="font-size: 30px;color: #b0b0b0;position: absolute;bottom: 110px;left: 30px;" class="fal fa-search"></i></div>
+			<div style="position: absolute;z-index: 2;width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;">
+				<div style="text-align: center;margin-top: -80px;" class=""> <i style="font-size: 96px;color: #b0b0b0;opacity: 0.25;" class="fal fa-folder"></i>
+					<p style="margin: 35px 0px 30px 0px;font-size: 16px;color: rgba(0, 0, 0, 0.65);font-family: 'Roboto-Regular';">Sin resultados</p>
+					<p style="font-size: 15px;color: rgba(0, 0, 0, 0.65);font-family: 'Roboto-Light';">No encontramos ningún resultado<br>que se ajuste a tu criterio de búsqueda</p>
+				</div>
+			</div>
+		</div>
+		<div class="list mn">
+			<ul id="search-service-list"></ul>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript" src="lib/f7/js/framework7.js"></script>
+	<script type="text/javascript" src="lib/lockr.js"></script>
+	<script type="text/javascript" src="lib/moment.js/moment-with-locales.min.js"></script>
+	<!--<script type="text/javascript" src="lib/numeral.js/numeral.min.js"></script>
+	<script type="text/javascript" src="lib/rateyo/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/rateyo/jquery.rateyo.min.js"></script>
+	<script type="text/javascript" src="lib/timeago/timeago.min.js"></script>
+	<script type="text/javascript" src="lib/timeago/timeago.locales.min.js"></script>
+	<script type="text/javascript" src="lib/underscore-min.js"></script>-->
+	<script type="text/javascript" src="js/util.js"></script>
+	<script type="text/javascript" src="js/my-app.js"></script>
+</body>
+
+</html>

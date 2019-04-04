@@ -1,0 +1,39 @@
+<div class="page" data-name="chat">
+	<div class="navbar" id="navColor">
+		<div class="navbar-inner">
+			<div class="left">
+				<a href="#" onclick="backChat();" class="link">
+					<i class="fal fa-arrow-left"></i>
+				</a>
+			</div>
+			<div class="title">
+				<div style=" width: 100%; text-align: center;">
+					<div style=" font-family: 'Montserrat';">Chat</div>
+					<!-- <div style=" font-size: 11px; font-family: 'Montserrat'; display: flex; justify-content: center; align-items: center; color: rgba(0, 0, 0, 0.45); "><i class="fas fa-circle" style=" color: #4CAF50; font-size: 9px; margin-right: 3px;"></i> En línea</div> -->
+				</div>
+			</div>
+			<div class="right">
+				<a href="#" class="link icon-only popup-open" id="shareLocation" data-popup=".popup-map">
+					<i class="fas fa-map-marker-alt"></i>
+				</a>
+				<a href="#" class="link icon-only popover-open" data-popover=".popover-gallery">
+					<i class="far fa-paperclip"></i>
+				</a>
+			</div>
+			
+		</div>
+	</div>
+	<div class="toolbar messagebar">
+		<div class="toolbar-inner">
+			<div class="messagebar-area">
+				<textarea class="resizable" placeholder="Escriba el mensaje" id="contentMsg" style="max-height: 595px;"></textarea>
+			</div>
+			<a class="link icon-only" id="send-message" style="">
+				<i class="fas fa-paper-plane md-only" style=" font-size: 16px;"></i>
+			</a>
+		</div>
+	</div>
+	<div class="page-content messages-content">
+		<div class="messages" id="containerMessages"></div>
+	</div>
+</div>

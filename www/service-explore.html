@@ -1,0 +1,465 @@
+<div class="page" data-name="service-explore">
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="left">
+				<a href="#" class="link back">
+					<i class="fal fa-arrow-left"></i>
+				</a>
+			</div>
+			<div class="title">Categoría del servicio</div>
+			<div class="right">
+				<a href="#" class="link popup-open" data-popup=".services-filter-popup">
+					<i class="fal fa-sliders-h"></i>
+				</a>
+				<a class="link icon-only searchbar-enable" data-searchbar=".searchbar-demo">
+					<i class="far fa-search"></i>
+				</a>
+			</div>
+			<form data-search-container=".search-list" data-search-in=".item-title" class="searchbar searchbar-expandable searchbar-demo searchbar-init">
+				<div class="searchbar-inner">
+					<div class="searchbar-input-wrap">
+						<input type="search" placeholder="Búsqueda..." id="search-provider"/>
+						<i class="fal fa-arrow-left"></i>
+						<span class="input-clear-button"></span>
+					</div>
+					<span class="searchbar-disable-button"></span>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="page-content infinite-scroll-content">
+
+		<div id="seeker-search-no-results" style="height: 100%; width: 100%; background: white; opacity: 0; transition: all 400ms; position: absolute; z-index: 999;">
+			<div style="position: absolute;top: 25%;z-index: 2;width: 90%;height: 50%;overflow: hidden;left: 0;right: 0;margin: 35px 15px;opacity: 0.10;"> <i class="fal fa-search" style="font-size: 40px;color: #b0b0b0;position: absolute;right: 10px;bottom: 100px;"></i> <i class="fal fa-search" style="font-size: 30px;color: #b0b0b0;right: 40px;position: absolute;top: 10px;"></i> <i class="fal fa-search" style="font-size: 40px;color: #b0b0b0;position: absolute;left: 35px;"></i> <i style="font-size: 30px;color: #b0b0b0;position: absolute;bottom: 110px;left: 30px;" class="fal fa-search"></i></div>
+			<div style="position: absolute;z-index: 2;width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;">
+				<div style="text-align: center;margin-top: -80px;" class=""> <i style="font-size: 96px;color: #b0b0b0;opacity: 0.25;" class="fal fa-folder"></i>
+					<p style="margin: 35px 0px 30px 0px;font-size: 16px;color: rgba(0, 0, 0, 0.65);font-family: 'Roboto-Regular';">Sin resultados</p>
+					<p style="font-size: 15px;color: rgba(0, 0, 0, 0.65);font-family: 'Roboto-Light';">No encontramos ningún resultado<br>que se ajuste a tu criterio de búsqueda</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="list mn">
+			<ul id="service-list">
+				<!--
+				<li>
+					<a href="/home/service-explore/request-service/" class="item-link item-content">
+						<div class="item-media">
+							<img src="img/avatar-default.png" alt="" class="">
+						</div>
+						<div class="item-inner">
+							<div class="item-title">
+								<div class="item-header">
+									<div style="font-size: 10px;">
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="far fa-star" style="color: #f7931e;"></i>
+										<i class="far fa-star" style="color: #f7931e;"></i>
+									</div>
+								</div>
+								<div>John Doe</div>
+								<div style="font-size: 13px; margin-bottom: 3px;">Descripcion del servicio</div>
+								<div class="item-footer">
+									<i class="fas fa-map-marker-alt"></i>Ubicación del servicio (distancia)
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="/home/service-explore/request-service/" class="item-link item-content">
+						<div class="item-media">
+							<img src="img/avatar-default.png" alt="" class="">
+						</div>
+						<div class="item-inner">
+							<div class="item-title">
+								<div class="item-header">
+									<div style="font-size: 10px;">
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="far fa-star" style="color: #f7931e;"></i>
+									</div>
+								</div>
+								<div>John Doe</div>
+								<div style="font-size: 13px; margin-bottom: 3px;">Descripcion del servicio</div>
+								<div class="item-footer">
+									<i class="fas fa-map-marker-alt"></i>Ubicación del servicio (distancia)
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="/home/service-explore/request-service/" class="item-link item-content">
+						<div class="item-media">
+							<img src="img/avatar-default.png" alt="" class="">
+						</div>
+						<div class="item-inner">
+							<div class="item-title">
+								<div class="item-header">
+									<div style="font-size: 10px;">
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+									</div>
+								</div>
+								<div>John Doe</div>
+								<div style="font-size: 13px; margin-bottom: 3px;">Descripcion del servicio</div>
+								<div class="item-footer">
+									<i class="fas fa-map-marker-alt"></i>Ubicación del servicio (distancia)
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="/home/service-explore/request-service/" class="item-link item-content">
+						<div class="item-media">
+							<img src="img/avatar-default.png" alt="" class="">
+						</div>
+						<div class="item-inner">
+							<div class="item-title">
+								<div class="item-header">
+									<div style="font-size: 10px;">
+										<i class="far fa-star" style="color: #f7931e;"></i>
+										<i class="far fa-star" style="color: #f7931e;"></i>
+										<i class="far fa-star" style="color: #f7931e;"></i>
+										<i class="far fa-star" style="color: #f7931e;"></i>
+										<i class="far fa-star" style="color: #f7931e;"></i>
+									</div>
+								</div>
+								<div>John Doe</div>
+								<div style="font-size: 13px; margin-bottom: 3px;">Descripcion del servicio</div>
+								<div class="item-footer">
+									<i class="fas fa-map-marker-alt"></i>Ubicación del servicio (distancia)
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="/home/service-explore/request-service/" class="item-link item-content">
+						<div class="item-media">
+							<img src="img/avatar-default.png" alt="" class="">
+						</div>
+						<div class="item-inner">
+							<div class="item-title">
+								<div class="item-header">
+									<div style="font-size: 10px;">
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="far fa-star" style="color: #f7931e;"></i>
+										<i class="far fa-star" style="color: #f7931e;"></i>
+										<i class="far fa-star" style="color: #f7931e;"></i>
+									</div>
+								</div>
+								<div>John Doe</div>
+								<div style="font-size: 13px; margin-bottom: 3px;">Descripcion del servicio</div>
+								<div class="item-footer">
+									<i class="fas fa-map-marker-alt"></i>Ubicación del servicio (distancia)
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="/home/service-explore/request-service/" class="item-link item-content">
+						<div class="item-media">
+							<img src="img/avatar-default.png" alt="" class="">
+						</div>
+						<div class="item-inner">
+							<div class="item-title">
+								<div class="item-header">
+									<div style="font-size: 10px;">
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="far fa-star" style="color: #f7931e;"></i>
+									</div>
+								</div>
+								<div>John Doe</div>
+								<div style="font-size: 13px; margin-bottom: 3px;">Descripcion del servicio</div>
+								<div class="item-footer">
+									<i class="fas fa-map-marker-alt"></i>Ubicación del servicio (distancia)
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="/home/service-explore/request-service/" class="item-link item-content">
+						<div class="item-media">
+							<img src="img/avatar-default.png" alt="" class="">
+						</div>
+						<div class="item-inner">
+							<div class="item-title">
+								<div class="item-header">
+									<div style="font-size: 10px;">
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="far fa-star" style="color: #f7931e;"></i>
+									</div>
+								</div>
+								<div>John Doe</div>
+								<div style="font-size: 13px; margin-bottom: 3px;">Descripcion del servicio</div>
+								<div class="item-footer">
+									<i class="fas fa-map-marker-alt"></i>Ubicación del servicio (distancia)
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="/home/service-explore/request-service/" class="item-link item-content">
+						<div class="item-media">
+							<img src="img/avatar-default.png" alt="" class="">
+						</div>
+						<div class="item-inner">
+							<div class="item-title">
+								<div class="item-header">
+									<div style="font-size: 10px;">
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="far fa-star" style="color: #f7931e;"></i>
+									</div>
+								</div>
+								<div>John Doe</div>
+								<div style="font-size: 13px; margin-bottom: 3px;">Descripcion del servicio</div>
+								<div class="item-footer">
+									<i class="fas fa-map-marker-alt"></i>Ubicación del servicio (distancia)
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="/home/service-explore/request-service/" class="item-link item-content">
+						<div class="item-media">
+							<img src="img/avatar-default.png" alt="" class="">
+						</div>
+						<div class="item-inner">
+							<div class="item-title">
+								<div class="item-header">
+									<div style="font-size: 10px;">
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="far fa-star" style="color: #f7931e;"></i>
+									</div>
+								</div>
+								<div>John Doe</div>
+								<div style="font-size: 13px; margin-bottom: 3px;">Descripcion del servicio</div>
+								<div class="item-footer">
+									<i class="fas fa-map-marker-alt"></i>Ubicación del servicio (distancia)
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="/home/service-explore/request-service/" class="item-link item-content">
+						<div class="item-media">
+							<img src="img/avatar-default.png" alt="" class="">
+						</div>
+						<div class="item-inner">
+							<div class="item-title">
+								<div class="item-header">
+									<div style="font-size: 10px;">
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="far fa-star" style="color: #f7931e;"></i>
+									</div>
+								</div>
+								<div>John Doe</div>
+								<div style="font-size: 13px; margin-bottom: 3px;">Descripcion del servicio</div>
+								<div class="item-footer">
+									<i class="fas fa-map-marker-alt"></i>Ubicación del servicio (distancia)
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="/home/service-explore/request-service/" class="item-link item-content">
+						<div class="item-media">
+							<img src="img/avatar-default.png" alt="" class="">
+						</div>
+						<div class="item-inner">
+							<div class="item-title">
+								<div class="item-header">
+									<div style="font-size: 10px;">
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="fas fa-star" style="color: #f7931e;"></i>
+										<i class="far fa-star" style="color: #f7931e;"></i>
+									</div>
+								</div>
+								<div>John Doe</div>
+								<div style="font-size: 13px; margin-bottom: 3px;">Descripcion del servicio</div>
+								<div class="item-footer">
+									<i class="fas fa-map-marker-alt"></i>Ubicación del servicio (distancia)
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+				-->
+				<div class="preloader infinite-scroll-preloader" style="display: none;"></div>
+			</ul>
+		</div>
+	</div>
+	<div class="popup services-filter-popup">
+		<div class="page">
+			<div class="navbar">
+				<div class="navbar-inner">
+					<div class="title">
+						<a href="#" class="link popup-close">
+							<i class="fal fa-times"></i>
+						</a>
+					</div>
+					<div class="right">
+						<a href="#" class="link popup-close" id="apply-filters">Aplicar</a>
+					</div>
+				</div>
+			</div>
+			<div class="page-content">
+				<div class="row services-filter-row">
+					<div class="col-33 services-filter-item-box">
+						<div class="services-filter-item-box-inner">
+							<button class="button services-filter-item" data-uid="nearest">
+								<i class="fal fa-location-arrow"></i>
+							</button>
+							<p class="services-filter-item-text">Mas
+								<br>cercanos
+							</p>
+						</div>
+					</div>
+					<div class="col-33 services-filter-item-box">
+						<div class="services-filter-item-box-inner">
+							<button class="button services-filter-item" data-uid="relevant">
+								<i class="fal fa-sort-amount-up"></i>
+								<i class="far fa-calendar-alt" style="font-size: 12px;margin-left: 1px;"></i>
+							</button>
+							<p class="services-filter-item-text">Mas
+								<br>relevantes
+							</p>
+						</div>
+					</div>
+					<div class="col-33 services-filter-item-box">
+						<div class="services-filter-item-box-inner">
+							<button class="button services-filter-item" data-uid="lrelevant">
+								<i class="fal fa-sort-amount-down"></i>
+								<i class="far fa-calendar-alt" style="font-size: 12px;margin-left: 1px;margin-right: -1px;"></i>
+							</button>
+							<p class="services-filter-item-text">Menos
+								<br>relevantes
+							</p>
+						</div>
+					</div>
+				</div>
+				<hr class="hr-text" data-content="Precio">
+				<div class="row services-filter-row">
+					<div class="col-33 services-filter-item-box">
+						<div class="services-filter-item-box-inner"> <button class="button services-filter-item" data-uid="hprice"> <i class="fal fa-sort-amount-up"></i> <i class="far fa-dollar-sign" style="font-size: 12px;"></i> </button>
+							<p class="services-filter-item-text">Mayor<br>precio</p>
+						</div>
+					</div>
+					<div class="col-33 services-filter-item-box">
+						<div class="services-filter-item-box-inner"> <button class="button services-filter-item" data-uid="lprice"> <i class="fal fa-sort-amount-down"></i><i class="far fa-dollar-sign" style=" font-size: 12px;"></i> </button>
+							<p class="services-filter-item-text">Menor<br>precio</p>
+						</div>
+					</div>
+				</div>
+				<hr class="hr-text" data-content="Ubicación">
+				<div>
+					<label class="button" for="choose-location" style="background: transparent;padding-left: 40px;height: 56px;border: 1px solid rgba(0, 0, 0, 0.65);border-radius: 8px;width: 70%;padding-right: 24px;margin: 0 auto;display:  flex;justify-content:  center;align-items:  center;">
+						<div style=" position: absolute; height: 100%; display: flex; justify-content: center; align-items: center; left: 16px;">
+							<i class="fas fa-map-marker-alt" style="color: rgba(0, 0, 0, 0.65);font-size: 18px;"></i>
+						</div>
+						<div style="display: flex;justify-content: center;align-items: center;position: absolute;color: rgba(0, 0, 0, 0.65);height: 100%;/* width: calc(100% - 40px); */">
+							<div style="padding-right: 6px;text-align: right;" id="country-name"></div>
+							<div style=" width: 16px;">
+								<i class="fas fa-caret-right"></i>
+							</div>
+							<div>
+								<div style="text-align: left;padding-left: 6px;" id="province-name"></div>
+							</div>
+						</div>
+						<input type="text" placeholder="" readonly="" id="choose-location" style="width: 100%;height: 100%;text-align: center;opacity: 0;" class="input-with-value input-focused">
+						<input type="hidden" id="choose-location-value">
+					</label>
+				</div>
+				<hr class="hr-text" data-content="Valoración">
+				<div style=" display: flex; justify-content: center; align-items: center;">
+					<div style="width: 48px;margin-left: -48px;margin-top: 8px;">
+						<a href="#" id="reset-rateyo" class="button" style=" color: rgba(0, 0, 0, 0.65); border-radius: 50%; width: 36px; height: 36px; min-width: 36px; margin-right: 16px; font-size: 16px; display: flex; justify-content: center; align-items: center;"><i class="fas fa-undo"></i></a>
+					</div>
+					<div class="rateyo-box" style="margin: 0;">
+						<div id="rateYoBG"></div>
+						<div id="rateYo"></div>
+					</div>
+				</div>
+				<!--
+				<div id="rater-filter" class="rater">
+					<input type="hidden" id="rater-input" value="0">
+					<div class="rater-stars">
+						<div class="rater-star-box" data-index="1">
+							<i class="fal fa-star"></i>
+							<i class="fas fa-star"></i>
+						</div>
+						<div class="rater-star-box" data-index="2">
+							<i class="fal fa-star"></i>
+							<i class="fas fa-star"></i>
+						</div>
+						<div class="rater-star-box" data-index="3">
+							<i class="fal fa-star"></i>
+							<i class="fas fa-star"></i>
+						</div>
+						<div class="rater-star-box" data-index="4">
+							<i class="fal fa-star"></i>
+							<i class="fas fa-star"></i>
+						</div>
+						<div class="rater-star-box" data-index="5">
+							<i class="fal fa-star"></i>
+							<i class="fas fa-star"></i>
+						</div>
+					</div>
+				</div>
+				-->
+				<hr class="hr-text" data-content="Costo">
+				<div style="display: flex;justify-content:  center;align-items:  center;">
+					<div style=" width: 100%; margin: 0 20%;">
+						<div>
+							<div style=" display: flex; width: 100%;">
+								<div style=" font-size: 12px; text-align: left; line-height: 16px; font-family: 'Roboto-Bold'; width: 50%; ">0 <i class="far fa-euro-sign"></i></div>
+								<div style=" font-size: 12px; text-align: right; line-height: 16px; font-family: 'Roboto-Bold'; width: 50%;">500 <i class="far fa-euro-sign"></i></div>
+							</div>
+							<div>
+								<div>
+									<div id="price-filter" class="range-slider"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div style="position: absolute;bottom: 0;width: 100%;display: flex;justify-content: center;align-items: center;height: 48px;background-color: #f7931e;box-shadow: 0 3px 3px 3px rgba(0, 0, 0, 0.20);z-index: 999;">
+				<a href="#" id="reset-filter" class="button" style="color: rgba(0, 0, 0, 0.65);font-size: 12px;display: flex;justify-content: center;align-items: center;font-family: 'Roboto-Medium';height: 100%;width: 100%;">Resetear filtros</a>
+			</div>
+		</div>
+	</div>
+</div>
