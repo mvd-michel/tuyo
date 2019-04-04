@@ -1703,8 +1703,3 @@ hamburger--slider.is-active .hamburger-box {
 .smart-select .item-after + .item-after {
     display: none;
 }
-
-.sheet-close {
-    color: white !important;
-    font-weight: 600;
-}
