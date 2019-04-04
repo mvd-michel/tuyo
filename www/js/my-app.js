@@ -1093,6 +1093,15 @@ var API = {
 	}
 };
 
+function isIOS() {
+    if(platform == "ios" || platform == "iphone" || platform == "ipad") {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 var app = new Framework7({
 	root: '#app',
 	name: 'terAPPia',
@@ -1516,6 +1525,15 @@ var app = new Framework7({
                    e.preventDefault();
                  }
                  
+                if(isIOS()) {
+                    $$("#tiposUsuarioAndroid").css("display", "none");
+                    $$("#tiposUsuarioIOS").css("display", "");
+                }
+                else {
+                    $$("#tiposUsuarioIOS").css("display", "none");
+                    $$("#tiposUsuarioAndroid").css("display", "");
+                }
+                 
                  $$("#register-phone").focus(function() {
                      if($$("#register-phone").val() == "") {
                          $$("#register-phone").val("0034");
@@ -1527,6 +1545,46 @@ var app = new Framework7({
                          $$("#register-phone").val("");
                      }
                  });
+                
+                var tiposUsuarioArr = [{reg: 1, tipo: "Usuario"}, {reg: 2, tipo: "Profesional"}, {reg: 3, tipo: "Centro de salud"}];
+                var tiposUsuarioStr = "Usuario,Profesional,Centro de salud";
+                if(isIOS()) {
+                    var newPicker = app.picker.create({
+                      inputEl: '#type-account-IOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (tiposUsuarioStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["Usuario"]);
+                            },
+                            close: function(picker) {
+                                if(tiposUsuarioArr.length > 0) {
+                                    tiposUsuarioArr.forEach(function(t) {
+                                       if(t.tipo == picker.value[0]) {
+                                           $$("#type-account").val(t.reg);
+                                       }
+                                    }); 
+                                }
+                            }
+                        }
+                    });
+                }
                 
 				$$("#validRegister").off("click").click(function() {
 					var band = false;
@@ -1767,8 +1825,7 @@ var app = new Framework7({
 		url: 'home-center.html',
 		on: {
 			pageInit: function (e, page) {
-				var userInfo = app.data('userInfo');
-				
+				var userInfo = app.data('userInfo');				
 				app.customFunctions.showIndicator();
 				API.loadInfoProfesionalsCenter({
 					i: userInfo.reg_password,
@@ -1966,6 +2023,27 @@ var app = new Framework7({
 				var userInfo = app.data('userInfo');
 				var calendarInline;
                 
+                if(isIOS()) {
+                    $$("#selectTaxsAndroidProfessional").css("display", "none");
+                    $$("#containerHorasDesdeAndroid").css("display", "none");
+                    $$("#containerHorasDescansoAndroid").css("display", "none");
+                    $$("#containerPEVAndroid").css("display", "none");
+                    $$("#selectIOSTaxs").css("display", "");
+                    $$("#containerHorasDesdeIOS").css("display", "");
+                    $$("#containerHorasDescansoIOS").css("display", "");
+                    $$("#containerPEVIOS").css("display", "");
+                }
+                else {
+                    $$("#selectIOSTaxs").css("display", "none");
+                    $$("#containerHorasDesdeIOS").css("display", "none");
+                    $$("#containerHorasDescansoIOS").css("display", "none");
+                    $$("#containerPEVIOS").css("display", "none");
+                    $$("#selectTaxsAndroidProfessional").css("display", "");
+                    $$("#containerHorasDesdeAndroid").css("display", "");
+                    $$("#containerHorasDescansoAndroid").css("display", "");
+                    $$("#containerPEVAndroid").css("display", "");
+                }
+                
                 $$("#calendarFrom").val(moment().format('DD/MM/YYYY'));
 				$$("#calendarUntil").val(moment().format('DD/MM/YYYY'));
 				var today = moment();
@@ -1996,18 +2074,58 @@ var app = new Framework7({
 				  	}
 				});
                 
-                
+                var centrArr = [];
+                var centerStr = "Ninguno,";
 				app.customFunctions.showIndicator();
 				API.loadCenterProfesional({
 					i: userInfo.reg_password
 				}, function(json) {
 					var html = '<option value="">Ninguno</option>';
+                    var taxIOS = "";
 					if(json.length > 0) {
+                        centrArr = json;
 						json.forEach(function(c) {
 							html += '<option value="'+c.reg_password+'">'+c.nombre+'</option>';
+                            centerStr += c.nombre + ",";
 						});
 					}
 					$$("#centrosSaludAgenda").html(html);
+                    
+                    if(isIOS()) {
+                        var newPicker = app.picker.create({
+                          inputEl: '#centrosSaludAgendaIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (centerStr.split(','))
+                              }
+                            ],
+                            on: {
+                                close: function(picker) {
+                                    if(centrArr.length > 0) {
+                                        centrArr.forEach(function(c) {
+                                           if(c.nombre == picker.value[0]) {
+                                               $$("#centrosSaludAgenda").val(c.reg_password);
+                                           }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    
 					app.customFunctions.hideIndicator();
 				}, function(error) {
                     app.customFunctions.hideIndicator();
@@ -2135,17 +2253,197 @@ var app = new Framework7({
                 
                 var html = "";
 				var t = 30;
+                var hoursStr = "";
+                var hoursArr = [];
 				for(var i = 8; i <= 22; i+=0.5) {
 					var j = i | 0;
 					j = zeroFill(j, 2);
 					t = t == 0 ? 30 : 0;
 					html += '<option value="'+j+":"+zeroFill(t, 2)+':00">'+j+":"+zeroFill(t, 2)+'</option>';
+                    hoursStr += j+":"+zeroFill(t, 2) + ",";
+                    hoursArr.push({value: (j+":"+zeroFill(t, 2)+':00'), name: (j+":"+zeroFill(t, 2))});
 				}
+                
+                hoursStr = hoursStr.substr(0, (hoursStr.length - 1));
 				
 				$$("#calendarFromHours").html(html);
 				$$("#calendarUntilHours").html(html);
 				$$("#calendarFromHoursBreakProf").html(html);
 				$$("#calendarUntilHoursBreakProf").html(html);
+                
+                var strPEV = "30,45,60";
+                
+                if(isIOS()) {
+                    var newPicker2 = app.picker.create({
+                      inputEl: '#calendarFromHoursIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (hoursStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["08:00"]);
+                            },
+                            close: function(picker) {
+                                if(hoursArr.length > 0) {
+                                    hoursArr.forEach(function(h) {
+                                       if(h.name == picker.value[0]) {
+                                           $$("#calendarFromHours").val(h.value);
+                                       }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    var newPicker3 = app.picker.create({
+                      inputEl: '#calendarUntilHoursIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (hoursStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["08:00"]);
+                            },
+                            close: function(picker) {
+                                if(hoursArr.length > 0) {
+                                    hoursArr.forEach(function(h) {
+                                       if(h.name == picker.value[0]) {
+                                           $$("#calendarUntilHours").val(h.value);
+                                       }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    var newPicker4 = app.picker.create({
+                      inputEl: '#calendarFromHoursBreakProfIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (hoursStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["08:00"]);
+                            },
+                            close: function(picker) {
+                                if(hoursArr.length > 0) {
+                                    hoursArr.forEach(function(h) {
+                                       if(h.name == picker.value[0]) {
+                                           $$("#calendarFromHoursBreakProf").val(h.value);
+                                       }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    var newPicker5 = app.picker.create({
+                      inputEl: '#calendarUntilHoursBreakProfIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (hoursStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["08:00"]);
+                            },
+                            close: function(picker) {
+                                if(hoursArr.length > 0) {
+                                    hoursArr.forEach(function(h) {
+                                       if(h.name == picker.value[0]) {
+                                           $$("#calendarUntilHoursBreakProf").val(h.value);
+                                       }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    var newPicker6 = app.picker.create({
+                      inputEl: '#valueAgendaIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (strPEV == "" ? [] : strPEV.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["30"]);
+                            },
+                            close: function(picker) {
+                                $$("#valueAgenda").val(picker.value[0]);
+                            }
+                        }
+                    });
+                }
 				
 			}
 		}
@@ -2155,8 +2453,30 @@ var app = new Framework7({
 		on: {
 			pageInit: function (e, page) {
 				var userInfo = app.data('userInfo');
+                if(isIOS()) {
+                    $$("#profesionalAndroid").css("display", "none");
+                    $$("#containerHorasCentroAndroid").css("display", "none");
+                    $$("#containerDescansoHorasCentroAndroid").css("display", "none");
+                    $$("#containerPEVAndroid").css("display", "none");
+                    $$("#profesionalIOS").css("display", "");
+                    $$("#containerHorasCentroIOS").css("display", "");
+                    $$("#containerDescansoHorasCentroIOS").css("display", "");
+                    $$("#containerPEVIOS").css("display", "");
+                }
+                else {
+                    $$("#profesionalIOS").css("display", "none");
+                    $$("#containerHorasCentroIOS").css("display", "none");
+                    $$("#containerDescansoHorasCentroIOS").css("display", "none");
+                    $$("#containerPEVIOS").css("display", "none");
+                    $$("#profesionalAndroid").css("display", "");
+                    $$("#containerHorasCentroAndroid").css("display", "");
+                    $$("#containerDescansoHorasCentroAndroid").css("display", "");
+                    $$("#containerPEVAndroid").css("display", "");
+                }
 				var calendarInline;
 				app.customFunctions.showIndicator();
+                var profesionalesArr = [{reg_password: 0, nombre: "Seleccione", apellidos: ""}];
+                var profesionalesStr = "Seleccione,";
 				API.loadProfesionalCenter({
 					i: userInfo.reg_password
 				}, function(json) {
@@ -2164,9 +2484,50 @@ var app = new Framework7({
 					if(json.length > 0) {
 						json.forEach(function(p) {
 							html += '<option value="'+p.reg_password+'">'+p.nombre+" "+p.apellidos+'</option>';
+                            profesionalesStr += p.nombre+" "+p.apellidos + ",";
+                            profesionalesArr.push(p);
 						});
 					}
 					$$("#profesionalesAgenda").html(html);
+                    
+                    if(isIOS()) {
+                        var newPicker = app.picker.create({
+                          inputEl: '#profesionalesAgendaIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (profesionalesStr.split(','))
+                              }
+                            ],
+                            on: {
+                                init: function() {
+                                    this.setValue(["Seleccione"]);
+                                },
+                                close: function(picker) {
+                                    if(profesionalesArr.length > 0) {
+                                        profesionalesArr.forEach(function(p) {
+                                           if((p.nombre + " " + p.apellidos) == picker.value[0]) {
+                                               $$("#profesionalesAgenda").val(p.reg_password);
+                                           }
+                                        }); 
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    
 					app.customFunctions.hideIndicator();
 				}, function(error) {
                     app.customFunctions.hideIndicator();
@@ -2301,19 +2662,197 @@ var app = new Framework7({
                 
                 var html = "";
 				var t = 30;
+                var hoursStr = "";
+                var hoursArr = [];
 				for(var i = 8; i <= 22; i+=0.5) {
 					var j = i | 0;
 					j = zeroFill(j, 2);
 					t = t == 0 ? 30 : 0;
 					html += '<option value="'+j+":"+zeroFill(t, 2)+':00">'+j+":"+zeroFill(t, 2)+'</option>';
-					
+                    hoursStr += j+":"+zeroFill(t, 2) + ",";
+                    hoursArr.push({value: (j+":"+zeroFill(t, 2)+':00'), name: (j+":"+zeroFill(t, 2))});
 				}
+                
+                hoursStr = hoursStr.substr(0, (hoursStr.length - 1));
 				
 				$$("#calendarFromHoursCenter").html(html);
 				$$("#calendarUntilHoursCenter").html(html);
-				
 				$$("#calendarFromHoursCenterBreak").html(html);
 				$$("#calendarUntilHoursCenterBreak").html(html);
+                
+                var strPEV = "30,45,60";
+                
+                if(isIOS()) {
+                    var newPicker2 = app.picker.create({
+                      inputEl: '#calendarFromHoursCenterIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (hoursStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["08:00"]);
+                            },
+                            close: function(picker) {
+                                if(hoursArr.length > 0) {
+                                    hoursArr.forEach(function(h) {
+                                       if(h.name == picker.value[0]) {
+                                           $$("#calendarFromHoursCenter").val(h.value);
+                                       }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    var newPicker3 = app.picker.create({
+                      inputEl: '#calendarUntilHoursCenterIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (hoursStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["08:00"]);
+                            },
+                            close: function(picker) {
+                                if(hoursArr.length > 0) {
+                                    hoursArr.forEach(function(h) {
+                                       if(h.name == picker.value[0]) {
+                                           $$("#calendarUntilHoursCenter").val(h.value);
+                                       }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    var newPicker4 = app.picker.create({
+                      inputEl: '#calendarFromHoursCenterBreakIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (hoursStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["08:00"]);
+                            },
+                            close: function(picker) {
+                                if(hoursArr.length > 0) {
+                                    hoursArr.forEach(function(h) {
+                                       if(h.name == picker.value[0]) {
+                                           $$("#calendarFromHoursCenterBreak").val(h.value);
+                                       }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    var newPicker5 = app.picker.create({
+                      inputEl: '#calendarUntilHoursCenterBreakIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (hoursStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["08:00"]);
+                            },
+                            close: function(picker) {
+                                if(hoursArr.length > 0) {
+                                    hoursArr.forEach(function(h) {
+                                       if(h.name == picker.value[0]) {
+                                           $$("#calendarUntilHoursCenterBreak").val(h.value);
+                                       }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    var newPicker6 = app.picker.create({
+                      inputEl: '#valueAgendaCenterIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (strPEV == "" ? [] : strPEV.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["30"]);
+                            },
+                            close: function(picker) {
+                                $$("#valueAgendaCenter").val(picker.value[0]);
+                            }
+                        }
+                    });
+                }
 				
 			}
 		}
@@ -2704,6 +3243,23 @@ var app = new Framework7({
 			pageInit: function (e, page) {
 				var userInfo = app.data('userInfo');
 				/*currentLat = null, currentLng = null;*/
+                
+                if(isIOS()) {
+                    $$("#idiomasFiltroAndroid").css("display", "none");
+                    $$("#tratamientosFiltroAndroid").css("display", "none");
+                    $$("#mutuaFiltroAndroid").css("display", "none");
+                    $$("#idiomasFiltroIOS").css("display", "");
+                    $$("#tratamientosFiltroIOS").css("display", "");
+                    $$("#mutuaFiltroIOS").css("display", "");
+                }
+                else {
+                    $$("#idiomasFiltroIOS").css("display", "none");
+                    $$("#tratamientosFiltroIOS").css("display", "none");
+                    $$("#mutuaFiltroIOS").css("display", "none");
+                    $$("#idiomasFiltroAndroid").css("display", "");
+                    $$("#tratamientosFiltroAndroid").css("display", "");
+                    $$("#mutuaFiltroAndroid").css("display", "");
+                }
 				
 				navigator.geolocation.getCurrentPosition(function(info) {
 					var coords = info.coords;
@@ -2715,6 +3271,14 @@ var app = new Framework7({
                 
                 app.range.setValue(".rangeDistance1", 2);
                 //app.range.setValue(".rangeDistance2", 5);
+                
+                var tratamientosFiltro = [{reg: 0, tratamiento: "Sin definir"}];
+                var idiomasFiltro = [{reg: 0, idioma: "Indiferente"}];
+                var mutuaFiltro = [{reg: 0, descripcion: "Ninguna"}];
+                
+                var tratamientosFiltroStr = "Sin definir,";
+                var idiomasFiltroStr = "Indiferente,";
+                var mutuaFiltroStr = "Ninguna,";
 				
 				app.customFunctions.showIndicator();
 				API.getInfoFilter({
@@ -2724,23 +3288,142 @@ var app = new Framework7({
 					var html = '<option value="0">Sin definir</option>';
 					if(json.tratamientos.length > 0) {
 						json.tratamientos.forEach(function(t) {
+                            tratamientosFiltro.push(t);
+                            tratamientosFiltroStr += t.tratamiento + ",";
 							html += '<option value="'+t.reg+'">'+t.tratamiento+'</option>';
 						});
 						$$("#tratamiento").html(html);
 					}
+                    
 					html = '<option value="0">Indiferente</option>';
 					if(json.idiomas.length > 0) {
 						json.idiomas.forEach(function(i) {
+                            idiomasFiltro.push(i);
+                            idiomasFiltroStr += i.idioma + ",";
 							html += '<option value="'+i.reg+'">'+i.idioma+'</option>';
 						});
 						$$("#lang").html(html);
 					}
-					html = '<option value="0">Ninguna</option>';
+                    
+                    html = '<option value="0">Ninguna</option>';
 					if(json.mutua.length > 0) {
 						json.mutua.forEach(function(m) {
+                            mutuaFiltro.push(m);
+                            mutuaFiltroStr += m.descripcion + ",";
 							html += '<option value="'+m.reg+'">'+m.descripcion+'</option>';
 						});
 					}
+                    $$("#mutua").html(html);
+                    
+                    if(isIOS()) {
+                        var newPicker1 = app.picker.create({
+                          inputEl: '#tratamientoIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (tratamientosFiltroStr.split(','))
+                              }
+                            ],
+                            on: {
+                                init: function() {
+                                    this.setValue(["Sin definir"]);
+                                },
+                                close: function(picker) {
+                                    if(tratamientosFiltro.length > 0) {
+                                        tratamientosFiltro.forEach(function(t) {
+                                           if(t.tratamiento == picker.value[0]) {
+                                               console.log(t.reg);
+                                               $$("#tratamiento").val(t.reg);
+                                           }
+                                        }); 
+                                    }
+                                }
+                            }
+                        });
+                        var newPicker2 = app.picker.create({
+                          inputEl: '#langIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (idiomasFiltroStr.split(','))
+                              }
+                            ],
+                            on: {
+                                init: function() {
+                                    this.setValue(["Indiferente"]);
+                                },
+                                close: function(picker) {
+                                    if(idiomasFiltro.length > 0) {
+                                        idiomasFiltro.forEach(function(i) {
+                                           if(i.idioma == picker.value[0]) {
+                                               $$("#lang").val(i.reg);
+                                           }
+                                        }); 
+                                    }
+                                }
+                            }
+                        });
+                        var newPicker3 = app.picker.create({
+                          inputEl: '#mutuaIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (mutuaFiltroStr.split(','))
+                              }
+                            ],
+                            on: {
+                                init: function() {
+                                    this.setValue(["Ninguna"]);
+                                },
+                                close: function(picker) {
+                                    if(mutuaFiltro.length > 0) {
+                                        mutuaFiltro.forEach(function(m) {
+                                           if(m.descripcion == picker.value[0]) {
+                                               console.log(m.reg);
+                                               $$("#mutua").val(m.reg);
+                                           }
+                                        }); 
+                                    }
+                                }
+                            }
+                        });
+                    }
 					
 					/*if(json.Domicilio_pref) {
 						$$("#domicilio").prop("checked", true);
@@ -2748,8 +3431,7 @@ var app = new Framework7({
 					else {
 						$$("#domicilio").prop("checked", false);
 					}*/
-					
-					$$("#mutua").html(html);                    
+                    
                     if(typeof json.filtro.reg != "undefined") {
                         app.range.setValue(".rangeDistance1", json.filtro.Distancia_maxi);
 						/*if(parseInt(json.filtro.Distancia_maxi) >= 5) {
@@ -3608,8 +4290,26 @@ var app = new Framework7({
 				var userInfo = app.data('userInfo');
 				app.customFunctions.showIndicator();
 				var clientes = null;
+                
+                if(isIOS()) {
+                    $$("#clientesAgendaUsuarioAndroid").css("display", "none");
+                    $$("#tratamientoAgendaUsuarioAndroid").css("display", "none");
+                    $$("#clientesAgendaUsuarioIOS").css("display", "");
+                    $$("#tratamientoAgendaUsuarioIOS").css("display", "");
+                }
+                else {
+                    $$("#clientesAgendaUsuarioIOS").css("display", "none");
+                    $$("#tratamientoAgendaUsuarioIOS").css("display", "none");
+                    $$("#clientesAgendaUsuarioAndroid").css("display", "");
+                    $$("#tratamientoAgendaUsuarioAndroid").css("display", "");
+                }
 				
 				infoNewLocation = {};
+                
+                var clientesAgendaArr = [];
+                var tratamientosAgendaArr = [];
+                var clientesStr = "Seleccione,";
+                var tratamientosStr = "Seleccione,";
 				
 				API.loadInfoUsersProfessional({
 					i: query.i,
@@ -3625,14 +4325,88 @@ var app = new Framework7({
 							
 						}*/
 						html += '<option value="'+c.reg_password+'">'+(c.nombre != null && c.apellidos != null ? (c.nombre+" "+c.apellidos) : c.email)+'</option>';
+                        clientesStr += (c.nombre != null && c.apellidos != null ? (c.nombre+" "+c.apellidos) : c.email) + ",";
 					});
 					$$("#clientesProfesional").html(html);
 					clientes = json.clientes;
 					html = "";
 					json.tratamientos.forEach(function(t) {
+                        tratamientosAgendaArr.push(t);
 						html += '<option value="'+t.reg+'">'+t.tratamiento+'</option>';
+                        tratamientosStr += t.tratamiento + ",";
+                        
 					});
 					$$("#tratamientosProfesional").html(html);
+                    
+                    if(isIOS()) {
+                        var newPicker = app.picker.create({
+                          inputEl: '#clientesProfesionalIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (clientesStr.split(','))
+                              }
+                            ],
+                            on: {
+                                init: function() {
+                                    this.setValue(["Seleccione"]);
+                                },
+                                close: function(picker) {
+                                    if(clientes.length > 0) {
+                                        clientes.forEach(function(c) {
+                                           if((c.nombre != null && c.apellidos != null ? (c.nombre+" "+c.apellidos) : c.email) == picker.value[0]) {
+                                               $$("#clientesProfesional").val(c.reg_password);
+                                           }
+                                        }); 
+                                    }
+                                }
+                            }
+                        });
+                        var newPicker2 = app.picker.create({
+                          inputEl: '#tratamientosProfesionalIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (tratamientosStr == "" ? [] : tratamientosStr.split(','))
+                              }
+                            ],
+                            on: {
+                                close: function(picker) {
+                                    if(tratamientosAgendaArr.length > 0) {
+                                        tratamientosAgendaArr.forEach(function(t) {
+                                           if(t.tratamiento == picker.value[0]) {
+                                               $$("#tratamientosProfesional").val(t.reg);
+                                           }
+                                        }); 
+                                    }
+                                }
+                            }
+                        });
+                    }
 					
 					$$("#clientesProfesional").change(function() {
 						
@@ -3759,7 +4533,24 @@ var app = new Framework7({
                 if(typeof query.t != "undefined") {
                     t = query.t;
                 }
-				
+                
+                if(isIOS()) {
+                    $$("#motivoAndroid").css("display", "none");
+                    $$("#sesionAndroid").css("display", "none");
+                    $$("#motivoIOS").css("display", "");
+                    $$("#sesionIOS").css("display", "");
+                }
+                else {
+                    $$("#motivoIOS").css("display", "none");
+                    $$("#sesionIOS").css("display", "none");
+                    $$("#motivoAndroid").css("display", "");
+                    $$("#sesionAndroid").css("display", "");
+                }
+                
+                var taxsRequest = [];
+				var taxIOS = "";
+                var sesionRequest = "1,Diaria,Semanal,Quincenal,Mensual";
+                var taxx = false;
 				var userInfo = app.data('userInfo');
 				app.customFunctions.showIndicator();
 				API.getInfoAgenda({
@@ -3795,9 +4586,7 @@ var app = new Framework7({
 					$$("#labelStarsRequestAgenda").html(stars + '<span style=" margin-top: -3px;">('+json.cant+')</span>');
 					
 					var taxs = "";
-					var html = "";
-                    var taxx = false;
-                    
+					var html = "";                    
                     if(typeof query.t != "undefined" && query.t != "") {
 						taxx = true;
 					}
@@ -3805,6 +4594,7 @@ var app = new Framework7({
                     var withOffert = "";
                     
 					json.tratamientos.forEach(function(t) {
+                        taxsRequest.push(t);
                         if(taxx) {
                             if(t.reg == query.t) {
                                 if(typeof t.oferta.reg != "undefined") {
@@ -3825,12 +4615,88 @@ var app = new Framework7({
                         }
 						html += '<option value="'+t.reg+'">'+t.tratamiento+'</option>';
 						taxs += t.tratamiento + ' | ';
+                        taxIOS += t.tratamiento + ",";
 					});
 					$$("#motivoRequestAgenda").html(html);
 					
 					if(taxx) {
 						$$("#motivoRequestAgenda").val(query.t);
 					}
+                    
+                    if(isIOS()) {
+                        var newPicker = app.picker.create({
+                          inputEl: '#motivoRequestAgendaIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (taxIOS == "" ? [] : taxIOS.split(','))
+                              }
+                            ],
+                            on: {
+                                init: function() {
+                                    var el = this;
+                                    if(taxx) {
+                                        taxsRequest.forEach(function(t) {
+                                           if(t.reg == query.t) {
+                                               el.setValue([t.tratamiento]);
+                                           }
+                                        }); 
+                                    }
+                                },
+                                close: function(picker) {
+                                    if(taxsRequest.length > 0) {
+                                        taxsRequest.forEach(function(t) {
+                                           if(t.tratamiento == picker.value[0]) {
+                                               console.log(t.reg);
+                                               $$("#motivoRequestAgenda").val(t.reg);
+                                           }
+                                        }); 
+                                    }
+                                }
+                            }
+                        });
+                        var newPicker2 = app.picker.create({
+                          inputEl: '#sessionRequestAgendaIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (sesionRequest.split(','))
+                              }
+                            ],
+                            on: {
+                                init: function() {
+                                    this.setValue(["1"]);
+                                },
+                                close: function(picker) {
+                                    $$("#sessionRequestAgenda").val(picker.value[0]);
+                                }
+                            }
+                        });
+                    }
 					
 					if(taxs != "") {
 						taxs = taxs.substr(0, (taxs.length -2));
@@ -4756,7 +5622,14 @@ var app = new Framework7({
 		on: {
 			pageInit: function (e, page) {
 				firstTax = true;
+                
+                
+                
 				getTaxs();
+                if(isIOS()) {
+                    $$("#selectIOS").css("display", "");
+                    $$("#selectAndroid").css("display", "none");                    
+                }
 				
 				$$("#deleteTaxs").click(function() {
 					app.dialog.confirm('Esta seguro que desea eliminar esta información?', function () {
@@ -4826,6 +5699,14 @@ var app = new Framework7({
 				
 				var query = app.views.main.router.currentRoute.query;
 				
+                if(isIOS()) {
+                    $$("#tratamientoOfertaAndroid").css("display", "none");
+                    $$("#tratamientoOfertaIOS").css("display", "");
+                }
+                else {
+                    $$("#tratamientoOfertaIOS").css("display", "none");
+                    $$("#tratamientoOfertaAndroid").css("display", "");
+                }
 				
 				$$("#fromOffers").val(moment().format('DD/MM/YYYY'));
 				$$("#untilOffers").val(moment().format('DD/MM/YYYY'));
@@ -4868,6 +5749,7 @@ var app = new Framework7({
 				
 				$$("#fromHours").html(html);
 				$$("#untilHours").html(html);
+                var taxArrr = [];
 				app.customFunctions.showIndicator();
 				API.loadOffers({
 					i: userInfo.reg_password
@@ -4876,18 +5758,54 @@ var app = new Framework7({
 					var data = info;
 					
 					$$("#saveOffers").html("Alta");
-					
+					var taxIOS = "Tratamientos,";
 					if(info.tratamientos.length > 0) {
+                        taxArrr = info.tratamientos;
 						var html = '<option value="">Tratamientos</option>';
 						info.tratamientos.forEach(function(t) {
 							html += '<option value="'+t.reg+'">'+t.tratamiento+'</option>';
+                            taxIOS += t.tratamiento + ",";
 						});
 						$$("#tratamientosOfertas").html(html);
 					}
-					
-					if(typeof query.i != "undefined") {
+                    if(typeof query.i != "undefined") {
 						$$("#tratamientosOfertas").val(query.i);
 					}
+                    
+                    if(isIOS()) {
+                        var newPicker = app.picker.create({
+                          inputEl: '#tratamientosOfertasIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (taxIOS == "" ? [] : taxIOS.split(','))
+                              }
+                            ],
+                            on: {
+                                close: function(picker) {
+                                    if(taxArrr.length > 0) {
+                                        taxArrr.forEach(function(t) {
+                                           if(t.tratamiento == picker.value[0]) {
+                                               $$("#tratamientosOfertas").val(t.reg);
+                                           }
+                                        }); 
+                                    }
+                                }
+                            }
+                        });
+                    }
 					
 					app.customFunctions.hideIndicator();
 
@@ -5329,6 +6247,18 @@ var app = new Framework7({
 				var i = app.views.main.router.currentRoute.query.p;
 				app.customFunctions.showIndicator();
                 
+                if(isIOS()) {
+                    $$("#profesionalesCentroRankingAndroid").css("display", "none");
+                    $$("#profesionalesCentroRankingIOS").css("display", "");
+                }
+                else {
+                    $$("#profesionalesCentroRankingIOS").css("display", "none");
+                    $$("#profesionalesCentroRankingAndroid").css("display", "");
+                }
+                
+                var profesionalesRankingArr = [];
+                var profesionalesRankingArr = "Seleccione,";
+                
                 app.range.setValue(".rangePCenter", 0);
                 app.range.setValue(".rangeACenter", 0);
                 app.range.setValue(".rangeTCenter", 0);
@@ -5342,7 +6272,6 @@ var app = new Framework7({
                     d: moment().format('YYYY-MM-DD')
 				}, function (json) {
                     
-                    console.log(json);
                     prof = json.profesionales;
                     
                     $$("#labelTitleUserRankingCenter").html(json.nombre);
@@ -5352,6 +6281,44 @@ var app = new Framework7({
                         html += '<option value="'+p.reg_password+'">'+p.nombre+" "+p.apellidos+'</option>';
                     });
                     $$("#professionalsRankingCenter").html(html);
+                    
+                    if(isIOS()) {
+                        var newPicker = app.picker.create({
+                          inputEl: '#professionalsRankingCenterIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (profesionalesRankingArr.split(','))
+                              }
+                            ],
+                            on: {
+                                init: function() {
+                                    this.setValue(["Seleccione"]);
+                                },
+                                close: function(picker) {
+                                    if(prof.length > 0) {
+                                        prof.forEach(function(p) {
+                                           if((p.nombre + " " + p.apellidos) == picker.value[0]) {
+                                               $$("#professionalsRankingCenter").val(p.reg_password);
+                                           }
+                                        }); 
+                                    }
+                                }
+                            }
+                        });
+                    }
                     
                     $$("#professionalsRankingCenter").change(function() {
                         app.range.setValue(".rangePCenter", 0);
@@ -5822,7 +6789,7 @@ var app = new Framework7({
 							offer = "";
 							if(typeof t.oferta.precio != "undefined" && t.oferta.precio != "") {
                                 offer = '<p>Promoción ';
-                                if(moment(t.oferta.fech_fin, "YYYY-MM-DD").isAfter(moment())) {
+                                if(moment(t.oferta.fech_fin, "YYYY-MM-DD").isAfter(moment()) && t.oferta.hora_ini != t.oferta.fech_fin) {
                                     offer = ' del: ' + moment(t.oferta.fech_ini, "YYYY-MM-DD").format("DD/MM/YYYY") + ' al ' + moment(t.oferta.fech_fin, "YYYY-MM-DD").format("DD/MM/YYYY")  + " de " + moment(t.oferta.hora_ini, "HH:mm:ss").format("HH:mm") + " a " + moment(t.oferta.hora_fin, "HH:mm:ss").format("HH:mm");
                                 }
                                 if(parseInt(t.oferta.dto) > 0) {
@@ -6024,6 +6991,12 @@ var app = new Framework7({
 				var password = $$("#password").val();
 				document.getElementById('email').checkValidity();
 				document.getElementById('password').checkValidity();
+                if(email.length == 9) {
+                    var isnum = /^\d+$/.test(email);
+                    if(isnum) {
+                       email = "0034" + email;
+                    }
+                }
 				if (!isEmpty(email) && !isEmpty(password)) {
 					$$('#login-check-access').addClass('logining');
 					API.auth({
@@ -6384,8 +7357,20 @@ var app = new Framework7({
 				}
 				$$("input[type=checkbox][name=actionsQuoteProfessional]:checked").prop("checked", false);
 			});
-
-			$$(document).on('keypress', '.form-wrapper input', function (e) {				
+            
+            /*
+            $$(document).on('change', '.smart-select-page input[type=radio]', function () {
+                if(app.views.main.router.currentRoute.path.indexOf("taxs") >= 0) {
+                    $$('.smart-select-page .back').trigger("click");
+                }
+            });*/
+            /*
+			$$(document).on('click', '#openSheet', function (e) {
+                setTimeout(function() {
+                    $$(".sheet-close").html("<i class="fas fa-check"></i>");
+                }, 500);
+            });*/
+			$$(document).on('keypress', '.form-wrapper input', function (e) {
 				var $$input = $$(this);
 				var $$form = $$input.closest('.form-wrapper');				
 				if(e.keyCode == 13) {
@@ -6496,7 +7481,7 @@ var app = new Framework7({
 }).on('popupOpened', function (popup) {
 	
 }).on('routeChanged', function (newRoute, previousRoute, router) {
-    if(app.views.main.router.currentRoute.path != "/location/" && app.views.main.router.currentRoute.path != "/request-agenda-user/" && app.views.main.router.currentRoute.path != "/my-account/" && app.views.main.router.currentRoute.path != "/complement/" && app.views.main.router.currentRoute.path != "/agenda/") {
+    if(app.views.main.router.currentRoute.path != "/location/" && app.views.main.router.currentRoute.path != "/request-agenda-user/" && app.views.main.router.currentRoute.path != "/my-account/" && app.views.main.router.currentRoute.path != "/complement/" && app.views.main.router.currentRoute.path != "/agenda/" && app.views.main.router.currentRoute.path != "/taxs/") {
         //console.log(app.views.main.router.currentRoute.path);
         app.views.main.router.refreshPage();
     }
@@ -6548,21 +7533,59 @@ var app = new Framework7({
 
 var taxsArr = [];
 var firstTax = true;
+var pickerIOS;
 function getTaxs() {
 	app.customFunctions.showIndicator();
 	var userInfo = app.data('userInfo');
-	
+	var taxsArr = [];
 	API.loadTaxs({
 		i: userInfo.reg_password
 	}, function (json) {
 		
 		var html = '<option value="0">Tratamiento</option>';
+        var taxIOS = "";
 		if(json.tratamientos.length > 0) {
 			taxsArr = json.tratamientos;
 			json.tratamientos.forEach(function(t) {
 				html += '<option value="'+t.reg+'">'+t.tratamiento+'</option>';
+                taxIOS += t.tratamiento + ",";
 			});
 		}
+        
+        if(isIOS()) {
+            pickerIOS = app.picker.create({
+              inputEl: '#tratamientosTarifasIOS',
+                renderToolbar: function () {
+                    return '<div class="toolbar" style=" background: #0096a4;">' +
+                      '<div class="toolbar-inner">' +
+                        '<div class="left">' +
+                          '' +
+                        '</div>' +
+                        '<div class="right">' +
+                        '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                        '</div>' +
+                      '</div>' +
+                    '</div>';
+                  },
+                cols: [
+                  {
+                    textAlign: 'center',
+                    values: (taxIOS == "" ? [] : taxIOS.split(','))
+                  }
+                ],
+                on: {
+                    close: function(picker) {
+                        if(taxsArr.length > 0) {
+                            taxsArr.forEach(function(t) {
+                               if(t.tratamiento == picker.value[0]) {
+                                   $$("#tratamientosTarifas").val(t.reg);
+                               }
+                            });
+                        }
+                    }
+                }
+            });
+        }
 		
 		app.customFunctions.hideIndicator();
 		
