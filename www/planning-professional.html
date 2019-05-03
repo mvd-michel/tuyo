@@ -38,7 +38,7 @@
 							</div>
 						</div>
 					</li>
-					<li class="item-content item-input item-input-with-value row" style=" margin-left: 15px; padding-left: 0; margin-right: 15px; padding-right: 0;">
+					<li id="containerHorasDesdeAndroid" class="item-content item-input item-input-with-value row" style=" margin-left: 15px; padding-left: 0; margin-right: 15px; padding-right: 0;">
 						<div class="item-inner col-50" style="padding-right: 0;padding-top:  0;">
 							<div class="item-title item-label">Desde las</div>
 							<div class="item-input-wrap">
@@ -52,7 +52,21 @@
 							</div>
 						</div>
 					</li>
-					<li class="item-content item-input item-input-with-value row" style=" margin-left: 15px; padding-left: 0; margin-right: 15px; padding-right: 0;">
+					<li id="containerHorasDesdeIOS" class="row" style="display: none; margin-left: 10px; margin-right: 10px;">
+					    <div class="item-inner col-50" style="padding-right: 0;padding-top:  0;">
+                          <div class="item-title item-label" style=" position: absolute; top: -5px;">Desde las</div>
+                          <div class="item-input-wrap">
+                            <input type="text" placeholder="Desde" id="calendarFromHoursIOS" readonly="readonly"/>
+                          </div>
+                        </div>
+					    <div class="item-inner col-50" style="padding-right: 0;padding-top:  0;">
+                          <div class="item-title item-label" style=" position: absolute; top: -5px;">Hasta las</div>
+                          <div class="item-input-wrap">
+                            <input type="text" placeholder="Hasta" id="calendarUntilHoursIOS" readonly="readonly"/>
+                          </div>
+                        </div>
+					</li>
+					<li id="containerHorasDescansoAndroid" class="item-content item-input item-input-with-value row" style=" margin-left: 15px; padding-left: 0; margin-right: 15px; padding-right: 0;">
 						<div class="item-inner col-50" style="padding-right: 0;padding-top:  0;">
 							<div class="item-title item-label">Descanso Desde las</div>
 							<div class="item-input-wrap">
@@ -65,6 +79,20 @@
 								<select placeholder="" class="input-with-value" id="calendarUntilHoursBreakProf"><option value="">Tratamiento</option></select>
 							</div>
 						</div>
+					</li>
+					<li id="containerHorasDescansoIOS" class="row" style="display: none; margin-left: 10px; margin-right: 10px;">
+					    <div class="item-inner col-50" style="padding-right: 0;padding-top:  0;">
+                          <div class="item-title item-label" style=" position: absolute; top: -5px;">Descanso Desde las</div>
+                          <div class="item-input-wrap">
+                            <input type="text" placeholder="Desde" id="calendarFromHoursBreakProfIOS" readonly="readonly"/>
+                          </div>
+                        </div>
+					    <div class="item-inner col-50" style="padding-right: 0;padding-top:  0;">
+                          <div class="item-title item-label" style=" position: absolute; top: -5px;">Descanso Hasta las</div>
+                          <div class="item-input-wrap">
+                            <input type="text" placeholder="Hasta" id="calendarUntilHoursBreakProfIOS" readonly="readonly"/>
+                          </div>
+                        </div>
 					</li>
 					<li class="item-content item-input">
 						<div class="item-inner">
@@ -81,13 +109,23 @@
             </div>
             <div id="" class="list no-hairlines-md" style="margin-bottom: 0;margin-top:  0;">
 				<ul>
-					<li class="item-content item-input item-input-with-value" style=" border-top: 1px solid rgba(0, 0, 0, 0.04); margin-left: 15px; padding-left: 0; margin-right: 15px; padding-right: 0;">
+					<li id="selectTaxsAndroidProfessional" class="item-content item-input item-input-with-value" style=" border-top: 1px solid rgba(0, 0, 0, 0.04); margin-left: 15px; padding-left: 0; margin-right: 15px; padding-right: 0;">
 						<div class="item-inner" style=" padding-right: 0;">
 							<div class="item-title item-label">Centro de salud</div>
 							<div class="item-input-wrap">
 								<select placeholder="" class="input-with-value" id="centrosSaludAgenda"><option value="">Ninguno</option></select>
 							</div>
 						</div>
+					</li>
+					<li id="selectIOSTaxs" style="display: none;">
+					    <div class="item-content item-input">
+                            <div class="item-inner">
+                              <div class="item-title item-label">Centro de salud</div>
+                              <div class="item-input-wrap">
+                                <input type="text" placeholder="Centro" id="centrosSaludAgendaIOS" readonly="readonly"/>
+                              </div>
+                            </div>
+                        </div>
 					</li>
 				</ul>
 			</div>
@@ -111,7 +149,7 @@
 							</div>
 						</a>
 					</li>
-					<li class="item-content item-input row" style=" padding-left: 20px; padding-right: 10px; width: 100%;">
+					<li id="containerPVAndroid" class="item-content item-input row" style=" padding-left: 20px; padding-right: 10px; width: 100%;">
 						<div class="item-inner col-100">
 							<div class="item-title item-label">Periodicitad entre visitas</div>
 							<div class="item-input-wrap">
@@ -124,6 +162,17 @@
 								<span style="position: absolute;top: 5px;right: 0;color: rgba(0, 0, 0, 0.65);z-index:  0;">mm</span>
 							</div>
 						</div>
+					</li>
+					<li id="containerPVIOS" style="display: none;">
+					    <div class="item-content item-input">
+                            <div class="item-inner">
+                              <div class="item-title item-label">Periodicitad entre visitas</div>
+                              <div class="item-input-wrap">
+                                <input type="text" placeholder="Centro" id="centrosSaludAgendaIOS" readonly="readonly"/>
+                                <span style="position: absolute;top: 5px;right: 0;color: rgba(0, 0, 0, 0.65);z-index:  0;">mm</span>
+                              </div>
+                            </div>
+                        </div>
 					</li>
 				</ul>
 			</div>

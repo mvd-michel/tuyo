@@ -5,7 +5,7 @@ var cordovaIfDefined = typeof cordova != 'undefined';
 
 var $$ = Dom7;
 
-var lastBuildDateTime = 1524107056430, 
+var lastBuildDateTime = 1524107056431, 
 	messagesChat = null;
 var id_movil = null;
 var pushNotification = null;
@@ -17,8 +17,8 @@ var imgMyAccount = null;
 var fbsiUID;
 var currentLat = null, currentLng = null;
 //var host = "http://server2.autotrack-gps.com/tuyo/";
-//var host = "http://terappia.es/app/";
-var host = "http://terappiapp.es/";
+var host = "http://terappia.es/app/";
+//var host = "http://terappiapp.es/";
 var directory = "api";
 var markerCurrentPosition = null;
 var professionals = null;
@@ -29,6 +29,7 @@ var terminos = [];
 var dateConfirm;
 var codeConfirm;
 var platform = "web";
+var logged = 0;
 
 function setOptions(srcType) {
     var options = {
@@ -226,7 +227,7 @@ function lsTest() {
 function saveTypeUser(type) {
 	app.customFunctions.showIndicator();
 	var userInfo = app.data('userInfo');
-	app.methods.getJSON('fbl-op-pruebas', {
+	app.methods.getJSON('fbl-op', {
 		op: 3,
 		t: type,
 		i: userInfo.reg_password
@@ -358,6 +359,126 @@ function getFingerVerification() {
 		});
 	}
 }
+var linkUID;
+function withLinkedin() {
+    linkUID = new Date().getTime();
+    SafariViewController.show({
+            url: 'https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=773yrtyw3rtg1c&redirect_uri=https://terappia.es/app/linkl.php&scope=r_liteprofile r_emailaddress w_member_social',
+            //url: "http://autotrack-gps.com/negociando/fbl.php?uid=" + linkUID,
+            hidden: false,
+            animated: true,
+            transition: 'slide',
+            enterReaderModeIfAvailable: true,
+            toolbarColor: "#0096a4",
+            barColor: "#0096a4",
+            tintColor: "#ffffff",
+            controlTintColor: "#ffffff"
+        },
+        function (result) {
+            if (result.event === 'opened') {
+                //console.log('facebook signIn opened');
+            } else if (result.event === 'loaded') {
+                //console.log('facebook signIn loaded');
+            } else if (result.event === 'closed') {
+                /*myApp.showPreloader(" ");
+                $$.getJSON(session.app.wsDirectory + '/fbl.php', {
+                    op: 2,
+                    i: globals.fbsiUID,
+                    id_push: registrationId
+                }, function (response) {
+                    myApp.hidePreloader();
+                    if(!isEmpty(response)) {
+                        appPages.login.facebookSignInData = response;
+                        if(appPages.login.facebookSignInData.completed_registration == 1) {
+                            var loginData = appPages.login.facebookSignInData.login_data;
+                            if (loginData.activo) {									
+                                Lockr.set("options", {
+                                    rememberPassword: true,
+                                    rememberPasswordData: {
+                                        u: loginData.usuario,
+                                        p: loginData.clave
+                                    }
+                                });
+
+                                var infoC = loginData;
+                                Lockr.set('infoC', infoC);
+                                if (isEmpty(infoC.tipo_negocio_id)) {
+                                    if (infoC.saltar_tutorial == 1) {
+                                        mainView.router.loadPage({
+                                            url: 'pages/select-type-business.html',
+                                            force: true,
+                                            animatePages: false
+                                        });
+                                    } else {
+                                        switch (Number(infoC.tipo_negocio_id)) {
+                                            case 1:
+                                                mainView.router.loadPage({
+                                                    url: 'pages/tutorial.html',
+                                                    force: true,
+                                                    animatePages: false
+                                                });
+                                                break;
+                                            case 2:
+                                                mainView.router.loadPage({
+                                                    url: 'pages/tutorial-retail-supplier.html',
+                                                    force: true,
+                                                    animatePages: false
+                                                });
+                                                break;
+                                        }
+                                    }
+                                } else if (infoC.saltar_tutorial == 1) {
+                                    mainView.router.loadPage({
+                                        url: 'pages/main.html',
+                                        force: true,
+                                        animatePages: false
+                                    });
+                                } else {
+                                    switch (Number(infoC.tipo_negocio_id)) {
+                                        case 1:
+                                            mainView.router.loadPage({
+                                                url: 'pages/tutorial.html',
+                                                force: true,
+                                                animatePages: false
+                                            });
+                                            break;
+                                        case 2:
+                                            mainView.router.loadPage({
+                                                url: 'pages/tutorial-retail-supplier.html',
+                                                force: true,
+                                                animatePages: false
+                                            });
+                                            break;
+                                    }
+                                }
+                            } else {
+                                utils.toast({
+                                    content: "Este usuario se encuentra bloqueado.<br>Contacta al administrador del sistema.",
+                                    type: "error"
+                                });
+                            }
+                        }
+                        else {
+                            mainView.loadPage({
+                                url: "pages/select-type-business.html",
+                                query: {
+                                    social: 'facebook',
+                                    data: appPages.login.facebookSignInData
+                                }
+                            });
+                        }
+                    }
+                }, function () {
+                    myApp.hidePreloader();
+                });*/
+            }
+        },
+        function (msg) {
+            myApp.alert("Esta característica no está disponible tu versión de Android");
+            //console.log("Fatal error: ");
+            //console.log(msg);
+        });
+}
 
 function withFacebook() {
 	fbsiUID = new Date().getTime();
@@ -380,7 +501,7 @@ function withFacebook() {
 					}
 				*/
 				app.customFunctions.showIndicator();
-				app.methods.getJSON('fbl-op-pruebas', {
+				app.methods.getJSON('fbl-op', {
 					op: 1,
 					i: fbsiUID,
 					id_movil: id_movil,
@@ -399,6 +520,7 @@ function withFacebook() {
 				}, function(response) {
 					app.customFunctions.hideIndicator();
 					if(response.msg == "OK") {
+                        logged = 1;
 						if(typeof response.data.data != "undefined") {
 							fb = true;
 							app.data('userInfo', response.data.data);
@@ -706,6 +828,7 @@ var logout = function() {
 	fb = false;
 	$$("#containerButtonImages").hide();
 	app.data('userInfo', null);
+    logged = 0;
 	app.router.back('/login/', {
 		force: true
 	});
@@ -713,15 +836,15 @@ var logout = function() {
 };
 
 var API = {
-	host: cordovaIfDefined ? 'http://terappiapp.es/' : 'http://terappiapp.es/', // || true
-	//host: cordovaIfDefined ? 'http://terappia.es/app' : 'http://terappia.es/app', // || true
+	//host: cordovaIfDefined ? 'http://terappiapp.es/' : 'http://terappiapp.es/', // || true
+	host: cordovaIfDefined ? 'http://terappia.es/app' : 'http://terappia.es/app', // || true
 	getImage: function(folder, file, w, h) {
 		return API.host + '/thumb.php?pi=' + folder + '&src=' + file + '&x=' + w + '&y=' + h + '&f=0&q=100&t=-1';
 	},
 	makeXHR: function (params, onSuccess, onError) {
 		app.request({
 			method: 'GET',
-			url: API.host + '/api/operaciones-pruebas.php',
+			url: API.host + '/api/operaciones.php',
 			data: params,
 			complete: function (xhr, status) {
 				if (status == 200) {
@@ -960,7 +1083,7 @@ var API = {
 	addFile: function(element) {
 		app.popover.close();
 		app.customFunctions.showIndicator();
-		var url = API.host + '/api/operaciones-pruebas.php';
+		var url = API.host + '/api/operaciones.php';
 		switch($$(element).attr("data-target")) {
 			case 'camera':
 				var srcType = Camera.PictureSourceType.CAMERA;
@@ -1022,7 +1145,7 @@ var API = {
 		app.popover.close();
 		var page = $$(element).attr("data-page");
 		app.customFunctions.showIndicator();
-		var url = API.host + '/api/operaciones-pruebas.php';
+		var url = API.host + '/api/operaciones.php';
 		switch($$(element).attr("data-target")) {
 			case 'camera':
 				var srcType = Camera.PictureSourceType.CAMERA;
@@ -1089,6 +1212,15 @@ var API = {
 		}
 	}
 };
+
+function isIOS() {
+    if(platform == "ios" || platform == "iphone" || platform == "ipad") {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 
 var app = new Framework7({
 	root: '#app',
@@ -1165,6 +1297,12 @@ var app = new Framework7({
                     markerCurrentLocation = new google.maps.Marker({
                         position: {lat: parseFloat(currentLat), lng: parseFloat(currentLng)},
                         map: mapTest,
+                        icon: {
+                            url: 'img/marker-current-position.png',
+                            scaledSize: new google.maps.Size(30, 30),
+                            origin: new google.maps.Point(0, 0),
+                            anchor: new google.maps.Point(0, 0)
+                        },
                         title: "Mi ubicación actual",
                         info: "Esta es mi ubicación"
                     });
@@ -1377,76 +1515,93 @@ var app = new Framework7({
 				$$(".menus").hide();
 
 				if (!isEmpty(userInfo)) {
-					if(!push) {
-						if(userInfo.password != "") {
-							if(userInfo.reg_password > 0) {
-								if(typeof userInfo.huellas == "undefined") {
-									if(parseInt(userInfo.huella) == 1) {
-										getFingerVerification();
-									}
-									else {
-										if(parseInt(userInfo.mail) > 0) {
-											$$("#email").val(userInfo.email);
-										}
-										else {
-											$$("#email").val(userInfo.telefono);
-										}
-										$$("#password").val(userInfo.password);
-
-										currentLat = userInfo.latitud;
-										currentLng = userInfo.longitud;
-
-										setTimeout(function () {
-											$$("#login-check-access").trigger('click');
-										}, 300);
-									}
-								}
-							}
-						}
-						else {
-                            app.customFunctions.showIndicator();
-							setTimeout(function () {
-								//withFacebook();
-                                app.customFunctions.hideIndicator();
-                                fb = true;
-                                var info = app.data('userInfo');
-                                if(parseInt(info.usuario) == 0 && parseInt(info.profesional) == 0 && parseInt(info.centrodesalud) == 0) {
-                                    app.dialog.create({
-                                        title: 'Seleccione que tipo de usuario será en la app.',
-                                        text: 'Tipos de usuario',
-                                        buttons: [
-                                          {
-                                            text: 'Usuario',
-                                            onClick: function() {
-                                                saveTypeUser(1);
-                                            }
-                                          },
-                                          {
-                                            text: 'Profesional',
-                                            onClick: function() {
-                                                saveTypeUser(2);
-                                            }
-                                          },
-                                          {
-                                            text: 'Centro',
-                                            onClick: function() {
-                                                saveTypeUser(3);
-                                            }
-                                          },
-                                        ],
-                                        cssClass: "myAlert",
-                                        verticalButtons: true,
-                                    }).open();
-                                }
-                                else {
-                                    var json = app.data('userInfo');
-                                    if(parseInt(json.usuario) > 0) {
-                                        if(typeof json.filtro.reg_ficha != "undefined") {
-                                            app.router.navigate({
-                                                url: '/filtro/'
-                                            });
+                    if(logged == 0) {
+                        if(!push) {
+                            if(userInfo.password != "") {
+                                if(userInfo.reg_password > 0) {
+                                    if(typeof userInfo.huellas == "undefined") {
+                                        if(parseInt(userInfo.huella) == 1) {
+                                            getFingerVerification();
                                         }
                                         else {
+                                            if(parseInt(userInfo.mail) > 0) {
+                                                $$("#email").val(userInfo.email);
+                                            }
+                                            else {
+                                                $$("#email").val(userInfo.telefono);
+                                            }
+                                            $$("#password").val(userInfo.password);
+
+                                            currentLat = userInfo.latitud;
+                                            currentLng = userInfo.longitud;
+
+                                            setTimeout(function () {
+                                                $$("#login-check-access").trigger('click');
+                                            }, 300);
+                                        }
+                                    }
+                                }
+                            }
+                            else {
+                                app.customFunctions.showIndicator();
+                                setTimeout(function () {
+                                    //withFacebook();
+                                    app.customFunctions.hideIndicator();
+                                    fb = true;
+                                    var info = app.data('userInfo');
+                                    if(parseInt(info.usuario) == 0 && parseInt(info.profesional) == 0 && parseInt(info.centrodesalud) == 0) {
+                                        app.dialog.create({
+                                            title: 'Seleccione que tipo de usuario será en la app.',
+                                            text: 'Tipos de usuario',
+                                            buttons: [
+                                              {
+                                                text: 'Usuario',
+                                                onClick: function() {
+                                                    saveTypeUser(1);
+                                                }
+                                              },
+                                              {
+                                                text: 'Profesional',
+                                                onClick: function() {
+                                                    saveTypeUser(2);
+                                                }
+                                              },
+                                              {
+                                                text: 'Centro',
+                                                onClick: function() {
+                                                    saveTypeUser(3);
+                                                }
+                                              },
+                                            ],
+                                            cssClass: "myAlert",
+                                            verticalButtons: true,
+                                        }).open();
+                                    }
+                                    else {
+                                        var json = app.data('userInfo');
+                                        if(parseInt(json.usuario) > 0) {
+                                            app.router.navigate({
+                                                url: '/home/'
+                                            });
+                                            /*if(typeof json.filtro.reg_ficha != "undefined") {
+                                                app.router.navigate({
+                                                    url: '/filtro/'
+                                                });
+                                            }
+                                            else {
+                                                if(typeof json.nombre == "undefined") {
+                                                    app.router.navigate({
+                                                        url: '/my-account/'
+                                                    });
+                                                }
+                                                else {
+                                                    app.router.navigate({
+                                                        url: '/filtro/'
+                                                    });
+                                                }
+                                            }*/
+                                        }
+                                        else if(parseInt(json.profesional) > 0) {
                                             if(typeof json.nombre == "undefined") {
                                                 app.router.navigate({
                                                     url: '/my-account/'
@@ -1454,33 +1609,21 @@ var app = new Framework7({
                                             }
                                             else {
                                                 app.router.navigate({
-                                                    url: '/filtro/'
+                                                    url: '/agenda/'
                                                 });
                                             }
                                         }
-                                    }
-                                    else if(parseInt(json.profesional) > 0) {
-                                        if(typeof json.nombre == "undefined") {
+                                        else if(parseInt(json.centrodesalud) > 0) {
                                             app.router.navigate({
-                                                url: '/my-account/'
-                                            });
-                                        }
-                                        else {
-                                            app.router.navigate({
-                                                url: '/agenda/'
+                                                url: '/home-center/'
                                             });
                                         }
                                     }
-                                    else if(parseInt(json.centrodesalud) > 0) {
-                                        app.router.navigate({
-                                            url: '/home-center/'
-                                        });
-                                    }
-                                }
-                                
-							}, 500);
-						}
-					}
+
+                                }, 500);
+                            }
+                        }
+                    }
 				}
 			}
 		}
@@ -1505,6 +1648,15 @@ var app = new Framework7({
                    e.preventDefault();
                  }
                  
+                if(isIOS()) {
+                    $$("#tiposUsuarioAndroid").css("display", "none");
+                    $$("#tiposUsuarioIOS").css("display", "");
+                }
+                else {
+                    $$("#tiposUsuarioIOS").css("display", "none");
+                    $$("#tiposUsuarioAndroid").css("display", "");
+                }
+                 
                  $$("#register-phone").focus(function() {
                      if($$("#register-phone").val() == "") {
                          $$("#register-phone").val("0034");
@@ -1516,6 +1668,46 @@ var app = new Framework7({
                          $$("#register-phone").val("");
                      }
                  });
+                
+                var tiposUsuarioArr = [{reg: 1, tipo: "Usuario"}, {reg: 2, tipo: "Profesional"}, {reg: 3, tipo: "Centro de salud"}];
+                var tiposUsuarioStr = "Usuario,Profesional,Centro de salud";
+                if(isIOS()) {
+                    var newPicker = app.picker.create({
+                      inputEl: '#type-account-IOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (tiposUsuarioStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["Usuario"]);
+                            },
+                            close: function(picker) {
+                                if(tiposUsuarioArr.length > 0) {
+                                    tiposUsuarioArr.forEach(function(t) {
+                                       if(t.tipo == picker.value[0]) {
+                                           $$("#type-account").val(t.reg);
+                                       }
+                                    }); 
+                                }
+                            }
+                        }
+                    });
+                }
                 
 				$$("#validRegister").off("click").click(function() {
 					var band = false;
@@ -1756,8 +1948,7 @@ var app = new Framework7({
 		url: 'home-center.html',
 		on: {
 			pageInit: function (e, page) {
-				var userInfo = app.data('userInfo');
-				
+				var userInfo = app.data('userInfo');				
 				app.customFunctions.showIndicator();
 				API.loadInfoProfesionalsCenter({
 					i: userInfo.reg_password,
@@ -1955,9 +2146,31 @@ var app = new Framework7({
 				var userInfo = app.data('userInfo');
 				var calendarInline;
                 
+                if(isIOS()) {
+                    $$("#selectTaxsAndroidProfessional").css("display", "none");
+                    $$("#containerHorasDesdeAndroid").css("display", "none");
+                    $$("#containerHorasDescansoAndroid").css("display", "none");
+                    $$("#containerPEVAndroid").css("display", "none");
+                    $$("#selectIOSTaxs").css("display", "");
+                    $$("#containerHorasDesdeIOS").css("display", "");
+                    $$("#containerHorasDescansoIOS").css("display", "");
+                    $$("#containerPEVIOS").css("display", "");
+                }
+                else {
+                    $$("#selectIOSTaxs").css("display", "none");
+                    $$("#containerHorasDesdeIOS").css("display", "none");
+                    $$("#containerHorasDescansoIOS").css("display", "none");
+                    $$("#containerPEVIOS").css("display", "none");
+                    $$("#selectTaxsAndroidProfessional").css("display", "");
+                    $$("#containerHorasDesdeAndroid").css("display", "");
+                    $$("#containerHorasDescansoAndroid").css("display", "");
+                    $$("#containerPEVAndroid").css("display", "");
+                }
+                
                 $$("#calendarFrom").val(moment().format('DD/MM/YYYY'));
 				$$("#calendarUntil").val(moment().format('DD/MM/YYYY'));
 				var today = moment();
+                today = today.subtract(1, "days");
 				var calendarDefault1 = app.calendar.create({
 				  inputEl: '#calendarFrom',
 					monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
@@ -1966,8 +2179,13 @@ var app = new Framework7({
 					dateFormat: 'dd/mm/yyyy',
 					minDate: today,
 					on: {
-						dayClick: function(c, el) {
-							calendarDefault1.close();
+						dayClick: function(calendar, dayEl, year, month, day) {
+                            var d1 = moment((year + "-" + ((parseInt(month) + 1) > 9 ? (parseInt(month) + 1) : ("0" + (parseInt(month) + 1))) + "-" + (day > 9 ? day : ("0" + day))), "YYYY-MM-DD");
+                            var d2 = moment($$("#calendarUntil").val(), "DD/MM/YYYY");
+                            if(d1.isAfter(d2)) {
+                                calendarDefault2.setValue([d1]);
+                            }
+                            calendarDefault1.close();
 						}
 				  	}
 				});
@@ -1979,24 +2197,69 @@ var app = new Framework7({
 					dateFormat: 'dd/mm/yyyy',
 					minDate: today,
 					on: {
-						dayClick: function(c, el) {
+						dayClick: function(calendar, dayEl, year, month, day) {
+                            var d1 = moment((year + "-" + ((parseInt(month) + 1) > 9 ? (parseInt(month) + 1) : ("0" + (parseInt(month) + 1))) + "-" + (day > 9 ? day : ("0" + day))), "YYYY-MM-DD");
+                            var d2 = moment($$("#calendarFrom").val(), "DD/MM/YYYY");
+                            if(d1.isBefore(d2)) {
+                                calendarDefault1.setValue([d1]);
+                            }
 							calendarDefault2.close();
 						}
 				  	}
 				});
                 
-                
+                var centrArr = [];
+                var centerStr = "Ninguno,";
 				app.customFunctions.showIndicator();
 				API.loadCenterProfesional({
 					i: userInfo.reg_password
 				}, function(json) {
 					var html = '<option value="">Ninguno</option>';
+                    var taxIOS = "";
 					if(json.length > 0) {
+                        centrArr = json;
 						json.forEach(function(c) {
 							html += '<option value="'+c.reg_password+'">'+c.nombre+'</option>';
+                            centerStr += c.nombre + ",";
 						});
 					}
 					$$("#centrosSaludAgenda").html(html);
+                    
+                    if(isIOS()) {
+                        var newPicker = app.picker.create({
+                          inputEl: '#centrosSaludAgendaIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (centerStr.split(','))
+                              }
+                            ],
+                            on: {
+                                close: function(picker) {
+                                    if(centrArr.length > 0) {
+                                        centrArr.forEach(function(c) {
+                                           if(c.nombre == picker.value[0]) {
+                                               $$("#centrosSaludAgenda").val(c.reg_password);
+                                           }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    
 					app.customFunctions.hideIndicator();
 				}, function(error) {
                     app.customFunctions.hideIndicator();
@@ -2048,10 +2311,8 @@ var app = new Framework7({
                             }, function(json) {
 								app.customFunctions.hideIndicator();
                                 if(json.msg == "OK") {
-                                    calendarDefault1.setValue([moment()]);
-                                    calendarDefault2.setValue([moment()]);
-                                	//$$("#calendarFrom").val(moment().format('DD/MM/YYYY'));
-									//$$("#calendarUntil").val(moment().format('DD/MM/YYYY'));
+                                    //calendarDefault1.setValue([moment()]);
+                                    //calendarDefault2.setValue([moment()]);
 									app.dialog.alert("Los datos se han almacenado correctamente.");
 									
 									API.getInfoProfesional({
@@ -2086,10 +2347,8 @@ var app = new Framework7({
                                                 delete: 1
                                             }, function(json) {
                                                 app.customFunctions.hideIndicator();
-                                                calendarDefault1.setValue([moment()]);
-                                                calendarDefault2.setValue([moment()]);
-                                                //$$("#calendarFrom").val(moment().format('DD/MM/YYYY'));
-                                                //$$("#calendarUntil").val(moment().format('DD/MM/YYYY'));
+                                                //calendarDefault1.setValue([moment()]);
+                                                //calendarDefault2.setValue([moment()]);
                                                 app.dialog.alert("Los datos se han almacenado correctamente.");
 
                                                 API.getInfoProfesional({
@@ -2124,17 +2383,259 @@ var app = new Framework7({
                 
                 var html = "";
 				var t = 30;
+                var hoursStr = "";
+                var hoursArr = [];
 				for(var i = 8; i <= 22; i+=0.5) {
 					var j = i | 0;
 					j = zeroFill(j, 2);
 					t = t == 0 ? 30 : 0;
 					html += '<option value="'+j+":"+zeroFill(t, 2)+':00">'+j+":"+zeroFill(t, 2)+'</option>';
+                    hoursStr += j+":"+zeroFill(t, 2) + ",";
+                    hoursArr.push({value: (j+":"+zeroFill(t, 2)+':00'), name: (j+":"+zeroFill(t, 2))});
 				}
+                
+                hoursStr = hoursStr.substr(0, (hoursStr.length - 1));
 				
 				$$("#calendarFromHours").html(html);
 				$$("#calendarUntilHours").html(html);
 				$$("#calendarFromHoursBreakProf").html(html);
 				$$("#calendarUntilHoursBreakProf").html(html);
+                
+                var strPEV = "30,45,60";
+                
+                if(isIOS()) {
+                    var newPicker2 = app.picker.create({
+                      inputEl: '#calendarFromHoursIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (hoursStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["08:00"]);
+                            },
+                            close: function(picker) {
+                                if(hoursArr.length > 0) {
+                                    hoursArr.forEach(function(h) {
+                                       if(h.name == picker.value[0]) {
+                                           $$("#calendarFromHours").val(h.value);
+                                           var val = h.value;
+                                            var value1 = moment(h.value, "HH:mm:ss");
+                                            var value2 = moment($$("#calendarUntilHours").val(), "HH:mm:ss");
+                                            if(value1.isAfter(value2)) {
+                                                $$("#calendarUntilHours").val(val);
+                                                newPicker3.setValue([value1.format("HH:mm")]);
+                                            }
+                                       }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    var newPicker3 = app.picker.create({
+                      inputEl: '#calendarUntilHoursIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (hoursStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["08:00"]);
+                            },
+                            close: function(picker) {
+                                if(hoursArr.length > 0) {
+                                    hoursArr.forEach(function(h) {
+                                       if(h.name == picker.value[0]) {
+                                           $$("#calendarUntilHours").val(h.value);
+                                           var val = h.value;
+                                            var value1 = moment(h.value, "HH:mm:ss");
+                                            var value2 = moment($$("#calendarFromHours").val(), "HH:mm:ss");
+                                            if(value1.isBefore(value2)) {
+                                                $$("#calendarFromHours").val(val);
+                                                newPicker2.setValue([value1.format("HH:mm")]);
+                                            }
+                                       }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    var newPicker4 = app.picker.create({
+                      inputEl: '#calendarFromHoursBreakProfIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (hoursStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["08:00"]);
+                            },
+                            close: function(picker) {
+                                if(hoursArr.length > 0) {
+                                    hoursArr.forEach(function(h) {
+                                       if(h.name == picker.value[0]) {
+                                           $$("#calendarFromHoursBreakProf").val(h.value);
+                                            var val = h.value;
+                                            var value1 = moment(h.value, "HH:mm:ss");
+                                            var value2 = moment($$("#calendarUntilHoursBreakProf").val(), "HH:mm:ss");
+                                            if(value1.isAfter(value2)) {
+                                                $$("#calendarUntilHoursBreakProf").val(val);
+                                                newPicker5.setValue([value1.format("HH:mm")]);
+                                            }
+                                       }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    var newPicker5 = app.picker.create({
+                      inputEl: '#calendarUntilHoursBreakProfIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (hoursStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["08:00"]);
+                            },
+                            close: function(picker) {
+                                if(hoursArr.length > 0) {
+                                    hoursArr.forEach(function(h) {
+                                       if(h.name == picker.value[0]) {
+                                           $$("#calendarUntilHoursBreakProf").val(h.value);
+                                           var val = h.value;
+                                            var value1 = moment(h.value, "HH:mm:ss");
+                                            var value2 = moment($$("#calendarFromHoursBreakProf").val(), "HH:mm:ss");
+                                            if(value1.isBefore(value2)) {
+                                                $$("#calendarFromHoursBreakProf").val(val);
+                                                newPicker4.setValue([value1.format("HH:mm")]);
+                                            }
+                                       }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    var newPicker6 = app.picker.create({
+                      inputEl: '#valueAgendaIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (strPEV == "" ? [] : strPEV.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["30"]);
+                            },
+                            close: function(picker) {
+                                $$("#valueAgenda").val(picker.value[0]);
+                            }
+                        }
+                    });
+                }
+                else {
+                    $$("#calendarFromHours").change(function() {
+                        var val = this.value;
+                        var value1 = moment(this.value, "HH:mm:ss");
+                        var value2 = moment($$("#calendarUntilHours").val(), "HH:mm:ss");
+                        if(value1.isAfter(value2)) {
+                            $$("#calendarUntilHours").val(val);
+                        }
+                    });
+				    $$("#calendarUntilHours").change(function() {
+                        var val = this.value;
+                        var value1 = moment(this.value, "HH:mm:ss");
+                        var value2 = moment($$("#calendarFromHours").val(), "HH:mm:ss");
+                        if(value1.isBefore(value2)) {
+                            $$("#calendarFromHours").val(val);
+                        }
+                    });
+                    $$("#calendarFromHoursBreakProf").change(function() {
+                        var val = this.value;
+                        var value1 = moment(this.value, "HH:mm:ss");
+                        var value2 = moment($$("#calendarUntilHoursBreakProf").val(), "HH:mm:ss");
+                        if(value1.isAfter(value2)) {
+                            $$("#calendarUntilHoursBreakProf").val(val);
+                        }
+                    });
+				    $$("#calendarUntilHoursBreakProf").change(function() {
+                        var val = this.value;
+                        var value1 = moment(this.value, "HH:mm:ss");
+                        var value2 = moment($$("#calendarFromHoursBreakProf").val(), "HH:mm:ss");
+                        if(value1.isBefore(value2)) {
+                            $$("#calendarFromHoursBreakProf").val(val);
+                        }
+                    });
+                }
 				
 			}
 		}
@@ -2144,8 +2645,30 @@ var app = new Framework7({
 		on: {
 			pageInit: function (e, page) {
 				var userInfo = app.data('userInfo');
+                if(isIOS()) {
+                    $$("#profesionalAndroid").css("display", "none");
+                    $$("#containerHorasCentroAndroid").css("display", "none");
+                    $$("#containerDescansoHorasCentroAndroid").css("display", "none");
+                    $$("#containerPEVAndroid").css("display", "none");
+                    $$("#profesionalIOS").css("display", "");
+                    $$("#containerHorasCentroIOS").css("display", "");
+                    $$("#containerDescansoHorasCentroIOS").css("display", "");
+                    $$("#containerPEVIOS").css("display", "");
+                }
+                else {
+                    $$("#profesionalIOS").css("display", "none");
+                    $$("#containerHorasCentroIOS").css("display", "none");
+                    $$("#containerDescansoHorasCentroIOS").css("display", "none");
+                    $$("#containerPEVIOS").css("display", "none");
+                    $$("#profesionalAndroid").css("display", "");
+                    $$("#containerHorasCentroAndroid").css("display", "");
+                    $$("#containerDescansoHorasCentroAndroid").css("display", "");
+                    $$("#containerPEVAndroid").css("display", "");
+                }
 				var calendarInline;
 				app.customFunctions.showIndicator();
+                var profesionalesArr = [{reg_password: 0, nombre: "Seleccione", apellidos: ""}];
+                var profesionalesStr = "Seleccione,";
 				API.loadProfesionalCenter({
 					i: userInfo.reg_password
 				}, function(json) {
@@ -2153,9 +2676,50 @@ var app = new Framework7({
 					if(json.length > 0) {
 						json.forEach(function(p) {
 							html += '<option value="'+p.reg_password+'">'+p.nombre+" "+p.apellidos+'</option>';
+                            profesionalesStr += p.nombre+" "+p.apellidos + ",";
+                            profesionalesArr.push(p);
 						});
 					}
 					$$("#profesionalesAgenda").html(html);
+                    
+                    if(isIOS()) {
+                        var newPicker = app.picker.create({
+                          inputEl: '#profesionalesAgendaIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (profesionalesStr.split(','))
+                              }
+                            ],
+                            on: {
+                                init: function() {
+                                    this.setValue(["Seleccione"]);
+                                },
+                                close: function(picker) {
+                                    if(profesionalesArr.length > 0) {
+                                        profesionalesArr.forEach(function(p) {
+                                           if((p.nombre + " " + p.apellidos) == picker.value[0]) {
+                                               $$("#profesionalesAgenda").val(p.reg_password);
+                                           }
+                                        }); 
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    
 					app.customFunctions.hideIndicator();
 				}, function(error) {
                     app.customFunctions.hideIndicator();
@@ -2173,7 +2737,12 @@ var app = new Framework7({
 					dateFormat: 'dd/mm/yyyy',
 					minDate: today,
 					on: {
-						dayClick: function(c, el) {
+                        dayClick: function(calendar, dayEl, year, month, day) {
+                            var d1 = moment((year + "-" + ((parseInt(month) + 1) > 9 ? (parseInt(month) + 1) : ("0" + (parseInt(month) + 1))) + "-" + (day > 9 ? day : ("0" + day))), "YYYY-MM-DD");
+                            var d2 = moment($$("#calendarUntilCenter").val(), "DD/MM/YYYY");
+                            if(d1.isAfter(d2)) {
+                                calendarDefault2.setValue([d1]);
+                            }
 							calendarDefault1.close();
 						}
 				  	}
@@ -2186,7 +2755,12 @@ var app = new Framework7({
 					dateFormat: 'dd/mm/yyyy',
 					minDate: today,
 					on: {
-						dayClick: function(c, el) {
+                        dayClick: function(calendar, dayEl, year, month, day) {
+                            var d1 = moment((year + "-" + ((parseInt(month) + 1) > 9 ? (parseInt(month) + 1) : ("0" + (parseInt(month) + 1))) + "-" + (day > 9 ? day : ("0" + day))), "YYYY-MM-DD");
+                            var d2 = moment($$("#calendarFromCenter").val(), "DD/MM/YYYY");
+                            if(d1.isBefore(d2)) {
+                                calendarDefault1.setValue([d1]);
+                            }
 							calendarDefault2.close();
 						}
 				  	}
@@ -2290,19 +2864,259 @@ var app = new Framework7({
                 
                 var html = "";
 				var t = 30;
+                var hoursStr = "";
+                var hoursArr = [];
 				for(var i = 8; i <= 22; i+=0.5) {
 					var j = i | 0;
 					j = zeroFill(j, 2);
 					t = t == 0 ? 30 : 0;
 					html += '<option value="'+j+":"+zeroFill(t, 2)+':00">'+j+":"+zeroFill(t, 2)+'</option>';
-					
+                    hoursStr += j+":"+zeroFill(t, 2) + ",";
+                    hoursArr.push({value: (j+":"+zeroFill(t, 2)+':00'), name: (j+":"+zeroFill(t, 2))});
 				}
+                
+                hoursStr = hoursStr.substr(0, (hoursStr.length - 1));
 				
 				$$("#calendarFromHoursCenter").html(html);
 				$$("#calendarUntilHoursCenter").html(html);
-				
 				$$("#calendarFromHoursCenterBreak").html(html);
 				$$("#calendarUntilHoursCenterBreak").html(html);
+                
+                var strPEV = "30,45,60";
+                
+                if(isIOS()) {
+                    var newPicker2 = app.picker.create({
+                      inputEl: '#calendarFromHoursCenterIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (hoursStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["08:00"]);
+                            },
+                            close: function(picker) {
+                                if(hoursArr.length > 0) {
+                                    hoursArr.forEach(function(h) {
+                                       if(h.name == picker.value[0]) {
+                                           $$("#calendarFromHoursCenter").val(h.value);
+                                           var val = h.value;
+                                            var value1 = moment(h.value, "HH:mm:ss");
+                                            var value2 = moment($$("#calendarUntilHoursCenter").val(), "HH:mm:ss");
+                                            if(value1.isAfter(value2)) {
+                                                $$("#calendarUntilHoursCenter").val(val);
+                                                newPicker3.setValue([value1.format("HH:mm")]);
+                                            }
+                                       }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    var newPicker3 = app.picker.create({
+                      inputEl: '#calendarUntilHoursCenterIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (hoursStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["08:00"]);
+                            },
+                            close: function(picker) {
+                                if(hoursArr.length > 0) {
+                                    hoursArr.forEach(function(h) {
+                                       if(h.name == picker.value[0]) {
+                                           $$("#calendarUntilHoursCenter").val(h.value);
+                                           var val = h.value;
+                                            var value1 = moment(h.value, "HH:mm:ss");
+                                            var value2 = moment($$("#calendarFromHoursCenter").val(), "HH:mm:ss");
+                                            if(value1.isBefore(value2)) {
+                                                $$("#calendarFromHoursCenter").val(val);
+                                                newPicker2.setValue([value1.format("HH:mm")]);
+                                            }
+                                       }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    var newPicker4 = app.picker.create({
+                      inputEl: '#calendarFromHoursCenterBreakIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (hoursStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["08:00"]);
+                            },
+                            close: function(picker) {
+                                if(hoursArr.length > 0) {
+                                    hoursArr.forEach(function(h) {
+                                       if(h.name == picker.value[0]) {
+                                           $$("#calendarFromHoursCenterBreak").val(h.value);
+                                           var val = h.value;
+                                            var value1 = moment(h.value, "HH:mm:ss");
+                                            var value2 = moment($$("#calendarUntilHoursCenterBreak").val(), "HH:mm:ss");
+                                            if(value1.isAfter(value2)) {
+                                                $$("#calendarUntilHoursCenterBreak").val(val);
+                                                newPicker5.setValue([value1.format("HH:mm")]);
+                                            }
+                                       }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    var newPicker5 = app.picker.create({
+                      inputEl: '#calendarUntilHoursCenterBreakIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (hoursStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["08:00"]);
+                            },
+                            close: function(picker) {
+                                if(hoursArr.length > 0) {
+                                    hoursArr.forEach(function(h) {
+                                       if(h.name == picker.value[0]) {
+                                           $$("#calendarUntilHoursCenterBreak").val(h.value);
+                                           var val = h.value;
+                                            var value1 = moment(h.value, "HH:mm:ss");
+                                            var value2 = moment($$("#calendarFromHoursCenterBreak").val(), "HH:mm:ss");
+                                            if(value1.isBefore(value2)) {
+                                                $$("#calendarFromHoursCenterBreak").val(val);
+                                                newPicker4.setValue([value1.format("HH:mm")]);
+                                            }
+                                       }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    var newPicker6 = app.picker.create({
+                      inputEl: '#valueAgendaCenterIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (strPEV == "" ? [] : strPEV.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["30"]);
+                            },
+                            close: function(picker) {
+                                $$("#valueAgendaCenter").val(picker.value[0]);
+                            }
+                        }
+                    });
+                }
+                else {                  
+                    $$("#calendarFromHoursCenter").change(function() {
+                        var val = this.value;
+                        var value1 = moment(this.value, "HH:mm:ss");
+                        var value2 = moment($$("#calendarUntilHoursCenter").val(), "HH:mm:ss");
+                        if(value1.isAfter(value2)) {
+                            $$("#calendarUntilHoursCenter").val(val);
+                        }
+                    });
+				    $$("#calendarUntilHoursCenter").change(function() {
+                        var val = this.value;
+                        var value1 = moment(this.value, "HH:mm:ss");
+                        var value2 = moment($$("#calendarFromHoursCenter").val(), "HH:mm:ss");
+                        if(value1.isBefore(value2)) {
+                            $$("#calendarFromHoursCenter").val(val);
+                        }
+                    });
+                    $$("#calendarFromHoursCenterBreak").change(function() {
+                        var val = this.value;
+                        var value1 = moment(this.value, "HH:mm:ss");
+                        var value2 = moment($$("#calendarUntilHoursCenterBreak").val(), "HH:mm:ss");
+                        if(value1.isAfter(value2)) {
+                            $$("#calendarUntilHoursCenterBreak").val(val);
+                        }
+                    });
+				    $$("#calendarUntilHoursCenterBreak").change(function() {
+                        var val = this.value;
+                        var value1 = moment(this.value, "HH:mm:ss");
+                        var value2 = moment($$("#calendarFromHoursCenterBreak").val(), "HH:mm:ss");
+                        if(value1.isBefore(value2)) {
+                            $$("#calendarFromHoursCenterBreak").val(val);
+                        }
+                    });
+                }
 				
 			}
 		}
@@ -2514,7 +3328,7 @@ var app = new Framework7({
 					if(picSelected != null) {
 						if($$("#text-pic").val() != "" || imgMyAccount != null) {
 							app.customFunctions.showIndicator();
-							app.request.post(API.host + '/api/operaciones-pruebas.php', {
+							app.request.post(API.host + '/api/operaciones.php', {
 								op: 11,
 								i: userInfo.reg_password,
 								img: imgMyAccount,
@@ -2541,7 +3355,7 @@ var app = new Framework7({
 					else {
 						if(imgMyAccount != null) {
 							app.customFunctions.showIndicator();
-							app.request.post(API.host + '/api/operaciones-pruebas.php', {
+							app.request.post(API.host + '/api/operaciones.php', {
 								op: 11,
 								i: userInfo.reg_password,
 								img: imgMyAccount,
@@ -2693,6 +3507,23 @@ var app = new Framework7({
 			pageInit: function (e, page) {
 				var userInfo = app.data('userInfo');
 				/*currentLat = null, currentLng = null;*/
+                
+                if(isIOS()) {
+                    $$("#idiomasFiltroAndroid").css("display", "none");
+                    $$("#tratamientosFiltroAndroid").css("display", "none");
+                    $$("#mutuaFiltroAndroid").css("display", "none");
+                    $$("#idiomasFiltroIOS").css("display", "");
+                    $$("#tratamientosFiltroIOS").css("display", "");
+                    $$("#mutuaFiltroIOS").css("display", "");
+                }
+                else {
+                    $$("#idiomasFiltroIOS").css("display", "none");
+                    $$("#tratamientosFiltroIOS").css("display", "none");
+                    $$("#mutuaFiltroIOS").css("display", "none");
+                    $$("#idiomasFiltroAndroid").css("display", "");
+                    $$("#tratamientosFiltroAndroid").css("display", "");
+                    $$("#mutuaFiltroAndroid").css("display", "");
+                }
 				
 				navigator.geolocation.getCurrentPosition(function(info) {
 					var coords = info.coords;
@@ -2704,6 +3535,14 @@ var app = new Framework7({
                 
                 app.range.setValue(".rangeDistance1", 2);
                 //app.range.setValue(".rangeDistance2", 5);
+                
+                var tratamientosFiltro = [{reg: 0, tratamiento: "Sin definir"}];
+                var idiomasFiltro = [{reg: 0, idioma: "Indiferente"}];
+                var mutuaFiltro = [{reg: 0, descripcion: "Ninguna"}];
+                
+                var tratamientosFiltroStr = "Sin definir,";
+                var idiomasFiltroStr = "Indiferente,";
+                var mutuaFiltroStr = "Ninguna,";
 				
 				app.customFunctions.showIndicator();
 				API.getInfoFilter({
@@ -2713,23 +3552,142 @@ var app = new Framework7({
 					var html = '<option value="0">Sin definir</option>';
 					if(json.tratamientos.length > 0) {
 						json.tratamientos.forEach(function(t) {
+                            tratamientosFiltro.push(t);
+                            tratamientosFiltroStr += t.tratamiento + ",";
 							html += '<option value="'+t.reg+'">'+t.tratamiento+'</option>';
 						});
 						$$("#tratamiento").html(html);
 					}
+                    
 					html = '<option value="0">Indiferente</option>';
 					if(json.idiomas.length > 0) {
 						json.idiomas.forEach(function(i) {
+                            idiomasFiltro.push(i);
+                            idiomasFiltroStr += i.idioma + ",";
 							html += '<option value="'+i.reg+'">'+i.idioma+'</option>';
 						});
 						$$("#lang").html(html);
 					}
-					html = '<option value="0">Ninguna</option>';
+                    
+                    html = '<option value="0">Ninguna</option>';
 					if(json.mutua.length > 0) {
 						json.mutua.forEach(function(m) {
+                            mutuaFiltro.push(m);
+                            mutuaFiltroStr += m.descripcion + ",";
 							html += '<option value="'+m.reg+'">'+m.descripcion+'</option>';
 						});
 					}
+                    $$("#mutua").html(html);
+                    
+                    if(isIOS()) {
+                        var newPicker1 = app.picker.create({
+                          inputEl: '#tratamientoIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (tratamientosFiltroStr.split(','))
+                              }
+                            ],
+                            on: {
+                                init: function() {
+                                    this.setValue(["Sin definir"]);
+                                },
+                                close: function(picker) {
+                                    if(tratamientosFiltro.length > 0) {
+                                        tratamientosFiltro.forEach(function(t) {
+                                           if(t.tratamiento == picker.value[0]) {
+                                               console.log(t.reg);
+                                               $$("#tratamiento").val(t.reg);
+                                           }
+                                        }); 
+                                    }
+                                }
+                            }
+                        });
+                        var newPicker2 = app.picker.create({
+                          inputEl: '#langIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (idiomasFiltroStr.split(','))
+                              }
+                            ],
+                            on: {
+                                init: function() {
+                                    this.setValue(["Indiferente"]);
+                                },
+                                close: function(picker) {
+                                    if(idiomasFiltro.length > 0) {
+                                        idiomasFiltro.forEach(function(i) {
+                                           if(i.idioma == picker.value[0]) {
+                                               $$("#lang").val(i.reg);
+                                           }
+                                        }); 
+                                    }
+                                }
+                            }
+                        });
+                        var newPicker3 = app.picker.create({
+                          inputEl: '#mutuaIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (mutuaFiltroStr.split(','))
+                              }
+                            ],
+                            on: {
+                                init: function() {
+                                    this.setValue(["Ninguna"]);
+                                },
+                                close: function(picker) {
+                                    if(mutuaFiltro.length > 0) {
+                                        mutuaFiltro.forEach(function(m) {
+                                           if(m.descripcion == picker.value[0]) {
+                                               console.log(m.reg);
+                                               $$("#mutua").val(m.reg);
+                                           }
+                                        }); 
+                                    }
+                                }
+                            }
+                        });
+                    }
 					
 					/*if(json.Domicilio_pref) {
 						$$("#domicilio").prop("checked", true);
@@ -2737,8 +3695,7 @@ var app = new Framework7({
 					else {
 						$$("#domicilio").prop("checked", false);
 					}*/
-					
-					$$("#mutua").html(html);                    
+                    
                     if(typeof json.filtro.reg != "undefined") {
                         app.range.setValue(".rangeDistance1", json.filtro.Distancia_maxi);
 						/*if(parseInt(json.filtro.Distancia_maxi) >= 5) {
@@ -3072,6 +4029,7 @@ var app = new Framework7({
                     }
                 }, 750);
                 
+                var currenDate = moment().add(2, 'hours');
 				loadInfoPage = function(userInfo) {
                     console.log(userInfo);
 					var image = 'img/avatar-default-alt.png';
@@ -3142,7 +4100,7 @@ var app = new Framework7({
 					if(typeof app.views.main.router.currentRoute.query.center != "undefined") {
 						type = 0;
 					}
-					
+					var currentM;
 					if(arr.length > 0) {
 						var html = "";
 						var h1, h2, citas, hours, band = true;
@@ -3153,42 +4111,45 @@ var app = new Framework7({
 								band = false;
 								d.forEach(function(t) {
 									t.horas.forEach(function(h) {
-										band = true;
-										color = "";
-										if(parseInt(t.bloqueada) == 1) {
-											hours += '<a href="#" style="max-width: 80px;min-height: 50px;line-height:  50px; margin-top: 5px; background-color: red !important;" class="col-33 button button-fill actionsDaysCancel" data-mot="0" data-bloqueada="0" data-quote="0" data-reg="'+t.reg+'" data-hour="'+h.h+":00"+'">'+h.h+'</a>';
-										}
-										else {
-											if(typeof h.c.reg != "undefined") {
-												if(parseInt(h.c.bloqueada) == 2) {
-													//hours += '<a href="/actionsQuote/?i='+h.c.reg+'&d='+t.dia+'&h='+h.h+':00&esc=0&esp=1&reg='+json.reg_password+'" style="max-width: 80px;min-height: 50px;line-height:  50px; margin-top: 5px; background-color: #ff00ff !important;" class="col-33 button button-fill" data-mot="'+h.c.visitasconjuntas+'" data-quote="'+(h.c.reg ? h.c.reg : 0)+'" data-reg="'+t.reg+'" data-date="'+t.dia+'" data-hour="'+h.h+":00"+'">'+h.h+'</a>';
-													hours += '<a href="#" style="max-width: 80px;min-height: 50px;line-height:  50px; margin-top: 5px; background-color:red !important;" class="col-33 button button-fill actionsDaysCancel" data-mot="0" data-bloqueada="2" data-quote="'+h.c.reg+'" data-reg="'+t.reg+'">'+h.h+'</a>';
-												}
-												else {
-													if(typeof query.change == "undefined") {
-														hours += '<a href="#" style="max-width: 80px;min-height: 50px;line-height:  50px; margin-top: 5px; background-color: #ff00ff !important;" class="col-33 button button-fill actionsDays" data-mot="'+h.c.visitasconjuntas+'" data-bloqueada="0" data-quote="'+(h.c.reg ? h.c.reg : 0)+'" data-reg="'+t.reg+'" data-date="'+t.dia+'" data-hour="'+h.h+":00"+'">'+h.h+'</a>';
-													}
-												}
-											}
-											else {
-                                                /*
-                                                var reg = $$(this).attr("data-reg");
-                                                var hour = $$(this).attr("data-hour");
-                                                var date = $$(this).attr("data-date");
-                                                var quote = $$(this).attr("data-quote");
-                                                var mot = $$(this).attr("data-mot");
-                                                var userInfo = app.data('userInfo');
+                                        currentM = moment(t.dia + " " + h.h + ":00");
+                                        if(currentM.isAfter(currenDate)) {
+                                            band = true;
+                                            color = "";
+                                            if(parseInt(t.bloqueada) == 1) {
+                                                hours += '<a href="#" style="max-width: 80px;min-height: 50px;line-height:  50px; margin-top: 5px; background-color: red !important;" class="col-33 button button-fill actionsDaysCancel" data-mot="0" data-bloqueada="0" data-quote="0" data-reg="'+t.reg+'" data-hour="'+h.h+":00"+'">'+h.h+'</a>';
+                                            }
+                                            else {
+                                                if(typeof h.c.reg != "undefined") {
+                                                    if(parseInt(h.c.bloqueada) == 2) {
+                                                        //hours += '<a href="/actionsQuote/?i='+h.c.reg+'&d='+t.dia+'&h='+h.h+':00&esc=0&esp=1&reg='+json.reg_password+'" style="max-width: 80px;min-height: 50px;line-height:  50px; margin-top: 5px; background-color: #ff00ff !important;" class="col-33 button button-fill" data-mot="'+h.c.visitasconjuntas+'" data-quote="'+(h.c.reg ? h.c.reg : 0)+'" data-reg="'+t.reg+'" data-date="'+t.dia+'" data-hour="'+h.h+":00"+'">'+h.h+'</a>';
+                                                        hours += '<a href="#" style="max-width: 80px;min-height: 50px;line-height:  50px; margin-top: 5px; background-color:red !important;" class="col-33 button button-fill actionsDaysCancel" data-mot="0" data-bloqueada="2" data-quote="'+h.c.reg+'" data-reg="'+t.reg+'">'+h.h+'</a>';
+                                                    }
+                                                    else {
+                                                        if(typeof query.change == "undefined") {
+                                                            hours += '<a href="#" style="max-width: 80px;min-height: 50px;line-height:  50px; margin-top: 5px; background-color: #ff00ff !important;" class="col-33 button button-fill actionsDays" data-mot="'+h.c.visitasconjuntas+'" data-bloqueada="0" data-quote="'+(h.c.reg ? h.c.reg : 0)+'" data-reg="'+t.reg+'" data-date="'+t.dia+'" data-hour="'+h.h+":00"+'">'+h.h+'</a>';
+                                                        }
+                                                    }
+                                                }
+                                                else {
+                                                    /*
+                                                    var reg = $$(this).attr("data-reg");
+                                                    var hour = $$(this).attr("data-hour");
+                                                    var date = $$(this).attr("data-date");
+                                                    var quote = $$(this).attr("data-quote");
+                                                    var mot = $$(this).attr("data-mot");
+                                                    var userInfo = app.data('userInfo');
 
-                                                var action = parseInt($$(this).attr("data-action"));*/
-                                                
-												if(typeof query.change != "undefined") {
-													hours += '<a href="#" style="max-width: 80px;min-height: 50px;line-height:  50px; margin-top: 5px;" class="col-33 button button-fill actionsDays" data-action="1" data-date="'+t.dia+'" data-mot="0" data-quote="0" data-reg="'+t.reg+'" data-hour="'+h.h+":00"+'">'+h.h+'</a>';
-												}
-												else {
-													hours += '<a href="/actionsQuote/?i='+t.reg+'&d='+t.dia+'&h='+h.h+':00&esc=0&esp=1&reg='+json.reg_password+'" style="max-width: 80px;min-height: 50px;line-height:  50px; margin-top: 5px;" class="col-33 button button-fill" data-action="0" data-date="'+t.dia+'" data-mot="0" data-quote="0" data-reg="'+t.reg+'" data-hour="'+h.h+":00"+'">'+h.h+'</a>';
-												}
-											}
-										}
+                                                    var action = parseInt($$(this).attr("data-action"));*/
+
+                                                    if(typeof query.change != "undefined") {
+                                                        hours += '<a href="#" style="max-width: 80px;min-height: 50px;line-height:  50px; margin-top: 5px;" class="col-33 button button-fill actionsDays" data-action="1" data-date="'+t.dia+'" data-mot="0" data-quote="0" data-reg="'+t.reg+'" data-hour="'+h.h+":00"+'">'+h.h+'</a>';
+                                                    }
+                                                    else {
+                                                        hours += '<a href="/actionsQuote/?i='+t.reg+'&d='+t.dia+'&h='+h.h+':00&esc=0&esp=1&reg='+json.reg_password+'" style="max-width: 80px;min-height: 50px;line-height:  50px; margin-top: 5px;" class="col-33 button button-fill" data-action="0" data-date="'+t.dia+'" data-mot="0" data-quote="0" data-reg="'+t.reg+'" data-hour="'+h.h+":00"+'">'+h.h+'</a>';
+                                                    }
+                                                }
+                                            }
+                                        }
 										col++;
 										if(col == 2) {
 											col = 0;
@@ -3212,12 +4173,15 @@ var app = new Framework7({
 								band = false;
 								d.forEach(function(t) {
 									t.horas.forEach(function(h) {
-										band = true;
-										hours += '<a href="'+(type == 1 ? ('/request-agenda/?i='+t.reg+'&d='+t.dia+'&h='+h+":00&esc="+datac+"&esp="+datap+"&t="+tt) : "#")+'" style="max-width: 80px;min-height: 50px;line-height:  50px; margin-top: 5px;" class="col-33 button button-fill actionsDays" data-date="'+t.dia+'" data-reg="'+t.reg+'" data-hour="'+h+":00"+'">'+h+'</a>';
-										col++;
-										if(col == 2) {
-											col = 0;
-										}
+                                        currentM = moment(t.dia + " " + h + ":00");
+                                        if(currentM.isAfter(currenDate)) { //currenDate.format("YYYY-MM-DD") == currentM.format("YYYY-MM-DD") && 
+                                            band = true;
+                                            hours += '<a href="'+(type == 1 ? ('/request-agenda/?i='+t.reg+'&d='+t.dia+'&h='+h+":00&esc="+datac+"&esp="+datap+"&t="+tt) : "#")+'" style="max-width: 80px;min-height: 50px;line-height:  50px; margin-top: 5px;" class="col-33 button button-fill actionsDays" data-date="'+t.dia+'" data-reg="'+t.reg+'" data-hour="'+h+":00"+'">'+h+'</a>';
+                                            col++;
+                                            if(col == 2) {
+                                                col = 0;
+                                            }
+                                        }
 									});
 								});
 								if(band) {
@@ -3597,8 +4561,26 @@ var app = new Framework7({
 				var userInfo = app.data('userInfo');
 				app.customFunctions.showIndicator();
 				var clientes = null;
+                
+                if(isIOS()) {
+                    $$("#clientesAgendaUsuarioAndroid").css("display", "none");
+                    $$("#tratamientoAgendaUsuarioAndroid").css("display", "none");
+                    $$("#clientesAgendaUsuarioIOS").css("display", "");
+                    $$("#tratamientoAgendaUsuarioIOS").css("display", "");
+                }
+                else {
+                    $$("#clientesAgendaUsuarioIOS").css("display", "none");
+                    $$("#tratamientoAgendaUsuarioIOS").css("display", "none");
+                    $$("#clientesAgendaUsuarioAndroid").css("display", "");
+                    $$("#tratamientoAgendaUsuarioAndroid").css("display", "");
+                }
 				
 				infoNewLocation = {};
+                
+                var clientesAgendaArr = [];
+                var tratamientosAgendaArr = [];
+                var clientesStr = "Seleccione,";
+                var tratamientosStr = "Seleccione,";
 				
 				API.loadInfoUsersProfessional({
 					i: query.i,
@@ -3614,14 +4596,88 @@ var app = new Framework7({
 							
 						}*/
 						html += '<option value="'+c.reg_password+'">'+(c.nombre != null && c.apellidos != null ? (c.nombre+" "+c.apellidos) : c.email)+'</option>';
+                        clientesStr += (c.nombre != null && c.apellidos != null ? (c.nombre+" "+c.apellidos) : c.email) + ",";
 					});
 					$$("#clientesProfesional").html(html);
 					clientes = json.clientes;
 					html = "";
 					json.tratamientos.forEach(function(t) {
+                        tratamientosAgendaArr.push(t);
 						html += '<option value="'+t.reg+'">'+t.tratamiento+'</option>';
+                        tratamientosStr += t.tratamiento + ",";
+                        
 					});
 					$$("#tratamientosProfesional").html(html);
+                    
+                    if(isIOS()) {
+                        var newPicker = app.picker.create({
+                          inputEl: '#clientesProfesionalIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (clientesStr.split(','))
+                              }
+                            ],
+                            on: {
+                                init: function() {
+                                    this.setValue(["Seleccione"]);
+                                },
+                                close: function(picker) {
+                                    if(clientes.length > 0) {
+                                        clientes.forEach(function(c) {
+                                           if((c.nombre != null && c.apellidos != null ? (c.nombre+" "+c.apellidos) : c.email) == picker.value[0]) {
+                                               $$("#clientesProfesional").val(c.reg_password);
+                                           }
+                                        }); 
+                                    }
+                                }
+                            }
+                        });
+                        var newPicker2 = app.picker.create({
+                          inputEl: '#tratamientosProfesionalIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (tratamientosStr == "" ? [] : tratamientosStr.split(','))
+                              }
+                            ],
+                            on: {
+                                close: function(picker) {
+                                    if(tratamientosAgendaArr.length > 0) {
+                                        tratamientosAgendaArr.forEach(function(t) {
+                                           if(t.tratamiento == picker.value[0]) {
+                                               $$("#tratamientosProfesional").val(t.reg);
+                                           }
+                                        }); 
+                                    }
+                                }
+                            }
+                        });
+                    }
 					
 					$$("#clientesProfesional").change(function() {
 						
@@ -3748,7 +4804,24 @@ var app = new Framework7({
                 if(typeof query.t != "undefined") {
                     t = query.t;
                 }
-				
+                
+                if(isIOS()) {
+                    $$("#motivoAndroid").css("display", "none");
+                    $$("#sesionAndroid").css("display", "none");
+                    $$("#motivoIOS").css("display", "");
+                    $$("#sesionIOS").css("display", "");
+                }
+                else {
+                    $$("#motivoIOS").css("display", "none");
+                    $$("#sesionIOS").css("display", "none");
+                    $$("#motivoAndroid").css("display", "");
+                    $$("#sesionAndroid").css("display", "");
+                }
+                
+                var taxsRequest = [];
+				var taxIOS = "";
+                var sesionRequest = "1,Diaria,Semanal,Quincenal,Mensual";
+                var taxx = false;
 				var userInfo = app.data('userInfo');
 				app.customFunctions.showIndicator();
 				API.getInfoAgenda({
@@ -3784,9 +4857,7 @@ var app = new Framework7({
 					$$("#labelStarsRequestAgenda").html(stars + '<span style=" margin-top: -3px;">('+json.cant+')</span>');
 					
 					var taxs = "";
-					var html = "";
-                    var taxx = false;
-                    
+					var html = "";                    
                     if(typeof query.t != "undefined" && query.t != "") {
 						taxx = true;
 					}
@@ -3794,6 +4865,7 @@ var app = new Framework7({
                     var withOffert = "";
                     
 					json.tratamientos.forEach(function(t) {
+                        taxsRequest.push(t);
                         if(taxx) {
                             if(t.reg == query.t) {
                                 if(typeof t.oferta.reg != "undefined") {
@@ -3814,12 +4886,88 @@ var app = new Framework7({
                         }
 						html += '<option value="'+t.reg+'">'+t.tratamiento+'</option>';
 						taxs += t.tratamiento + ' | ';
+                        taxIOS += t.tratamiento + ",";
 					});
 					$$("#motivoRequestAgenda").html(html);
 					
 					if(taxx) {
 						$$("#motivoRequestAgenda").val(query.t);
 					}
+                    
+                    if(isIOS()) {
+                        var newPicker = app.picker.create({
+                          inputEl: '#motivoRequestAgendaIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (taxIOS == "" ? [] : taxIOS.split(','))
+                              }
+                            ],
+                            on: {
+                                init: function() {
+                                    var el = this;
+                                    if(taxx) {
+                                        taxsRequest.forEach(function(t) {
+                                           if(t.reg == query.t) {
+                                               el.setValue([t.tratamiento]);
+                                           }
+                                        }); 
+                                    }
+                                },
+                                close: function(picker) {
+                                    if(taxsRequest.length > 0) {
+                                        taxsRequest.forEach(function(t) {
+                                           if(t.tratamiento == picker.value[0]) {
+                                               console.log(t.reg);
+                                               $$("#motivoRequestAgenda").val(t.reg);
+                                           }
+                                        }); 
+                                    }
+                                }
+                            }
+                        });
+                        var newPicker2 = app.picker.create({
+                          inputEl: '#sessionRequestAgendaIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (sesionRequest.split(','))
+                              }
+                            ],
+                            on: {
+                                init: function() {
+                                    this.setValue(["1"]);
+                                },
+                                close: function(picker) {
+                                    $$("#sessionRequestAgenda").val(picker.value[0]);
+                                }
+                            }
+                        });
+                    }
 					
 					if(taxs != "") {
 						taxs = taxs.substr(0, (taxs.length -2));
@@ -4034,7 +5182,7 @@ var app = new Framework7({
 				
 				imgMyAccount = null;
 				$$("#registerDates").click(function() {
-					var url = API.host + '/api/operaciones-pruebas.php';
+					var url = API.host + '/api/operaciones.php';
 					var userInfo = app.data('userInfo');
 					var band = true;
 					if(userInfo.profesional > 0) {
@@ -4106,7 +5254,7 @@ var app = new Framework7({
                                         if(band4) {
                                             band2 = false;
                                             API.checkEmailPhone({
-                                                p: $$("#my-account-phone").val(),
+                                                p: $$("#my-account-phone").val()
                                             }, function(json) {
                                                 if(json.msg == "OK") {
                                                     app.router.navigate({
@@ -4185,7 +5333,7 @@ var app = new Framework7({
                                         if(band3) {
                                             band2 = false;
                                             API.checkEmailPhone({
-                                                p: $$("#my-account-phone").val(),
+                                                p: $$("#my-account-phone").val()
                                             }, function(json) {
                                                 if(json.msg == "OK") {
                                                     app.router.navigate({
@@ -4213,10 +5361,10 @@ var app = new Framework7({
                                     }
                                 }
                                 if($$("#my-account-email").val() != "") {
-                                    band2 = false;
                                     if(userInfo.email != $$("#my-account-email").val()) {
+                                        band2 = false;
                                         API.checkEmailPhone({
-                                            e: $$("#my-account-email").val(),
+                                            e: $$("#my-account-email").val()
                                         }, function(json) {
                                             if(json.msg == "OK") {
                                                 app.router.navigate({
@@ -4233,7 +5381,6 @@ var app = new Framework7({
                                                 });
                                             }
                                             else {
-                                                band2 = false;
                                                 app.dialog.alert("El correo electrónico ingresado ya existe");
                                             }
                                             app.customFunctions.hideIndicator();
@@ -4241,7 +5388,6 @@ var app = new Framework7({
                                             app.customFunctions.hideIndicator();
                                             //console.log(error);
                                         });
-                                        band2 = false;
                                     }
                                 }
                             }
@@ -4250,10 +5396,11 @@ var app = new Framework7({
 						if(band2) {
                             if(typeof userInfo.privacidad != "undefined" && userInfo.privacidad  == null) {
                                if($$("input[type=checkbox][name=aceptMA]:checked").length < 2) {
+                                    band2 = false;
                                     app.dialog.alert("Debe aceptar los Términos y condiciones y las Políticas de privacidad.");
                                 }
                             }
-                            else {
+                            if(band2) {
                                 app.customFunctions.showIndicator();
                                 app.request.post(url, {
                                     op: 9,
@@ -4336,8 +5483,8 @@ var app = new Framework7({
 				markerCurrentPosition = new google.maps.Marker({
 					position: center,
 					icon: {
-						url: 'img/user-marker.png',
-						scaledSize: new google.maps.Size(36, 53),
+						url: 'img/marker-current-position.png',
+						scaledSize: new google.maps.Size(30, 30),
 						origin: new google.maps.Point(0, 0),
 						anchor: new google.maps.Point(0, 0)
 					},
@@ -4464,7 +5611,7 @@ var app = new Framework7({
 						}
 						else {
 							if(parseInt(userInfo.profesional) > 0 || parseInt(userInfo.usuario) > 0) {
-								var url = API.host + '/api/operaciones-pruebas.php';
+								var url = API.host + '/api/operaciones.php';
 								app.customFunctions.showIndicator();
 								app.request.post(url, {
 									op: 9,
@@ -4704,7 +5851,7 @@ var app = new Framework7({
                 });
                 
 				$$("#saveComplement").click(function() {
-					var url = API.host + '/api/operaciones-pruebas.php';
+					var url = API.host + '/api/operaciones.php';
 					var userInfo = app.data('userInfo');
 					app.customFunctions.showIndicator();
 					API.saveComplement({
@@ -4746,7 +5893,14 @@ var app = new Framework7({
 		on: {
 			pageInit: function (e, page) {
 				firstTax = true;
+                
+                existPicker = false;
+                
 				getTaxs();
+                if(isIOS()) {
+                    $$("#selectIOS").css("display", "");
+                    $$("#selectAndroid").css("display", "none");                    
+                }
 				
 				$$("#deleteTaxs").click(function() {
 					app.dialog.confirm('Esta seguro que desea eliminar esta información?', function () {
@@ -4816,6 +5970,18 @@ var app = new Framework7({
 				
 				var query = app.views.main.router.currentRoute.query;
 				
+                if(isIOS()) {
+                    $$("#tratamientoOfertaAndroid").css("display", "none");
+                    $$("#containerHoursOfferAndroid").css("display", "none");
+                    $$("#tratamientoOfertaIOS").css("display", "");
+                    $$("#containerHoursOfferIOS").css("display", "");
+                }
+                else {
+                    $$("#tratamientoOfertaIOS").css("display", "none");
+                    $$("#containerHoursOfferIOS").css("display", "none");
+                    $$("#tratamientoOfertaAndroid").css("display", "");
+                    $$("#containerHoursOfferAndroid").css("display", "");
+                }
 				
 				$$("#fromOffers").val(moment().format('DD/MM/YYYY'));
 				$$("#untilOffers").val(moment().format('DD/MM/YYYY'));
@@ -4826,8 +5992,13 @@ var app = new Framework7({
 					dayNamesShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
 					dateFormat: 'dd/mm/yyyy',
 					on: {
-						dayClick: function(c, el) {
-							calendarDefault1.close();
+                        dayClick: function(calendar, dayEl, year, month, day) {
+                            var d1 = moment((year + "-" + ((parseInt(month) + 1) > 9 ? (parseInt(month) + 1) : ("0" + (parseInt(month) + 1))) + "-" + (day > 9 ? day : ("0" + day))), "YYYY-MM-DD");
+                            var d2 = moment($$("#untilOffers").val(), "DD/MM/YYYY");
+                            if(d1.isAfter(d2)) {
+                                calendarDefault2.setValue([d1]);
+                            }
+                            calendarDefault1.close();
 						}
 				  	}
 				});
@@ -4838,26 +6009,143 @@ var app = new Framework7({
 					dayNamesShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
 					dateFormat: 'dd/mm/yyyy',
 					on: {
-						dayClick: function(c, el) {
-							calendarDefault2.close();
+                        dayClick: function(calendar, dayEl, year, month, day) {
+                            var d1 = moment((year + "-" + ((parseInt(month) + 1) > 9 ? (parseInt(month) + 1) : ("0" + (parseInt(month) + 1))) + "-" + (day > 9 ? day : ("0" + day))), "YYYY-MM-DD");
+                            var d2 = moment($$("#fromOffers").val(), "DD/MM/YYYY");
+                            if(d1.isBefore(d2)) {
+                                calendarDefault1.setValue([d1]);
+                            }
+                            calendarDefault2.close();
 						}
 				  	}
 				});
 				
 				var userInfo = app.data('userInfo');
-				
-				var html = "";
+                
+                var html = "";
 				var t = 30;
+                var hoursStr = "";
+                var hoursArr = [];
 				for(var i = 8; i <= 22; i+=0.5) {
 					var j = i | 0;
 					j = zeroFill(j, 2);
 					t = t == 0 ? 30 : 0;
-					html += '<option value="'+j+":"+zeroFill(t, 2)+'">'+j+":"+zeroFill(t, 2)+'</option>';
-					
+					html += '<option value="'+j+":"+zeroFill(t, 2)+':00">'+j+":"+zeroFill(t, 2)+'</option>';
+                    hoursStr += j+":"+zeroFill(t, 2) + ",";
+                    hoursArr.push({value: (j+":"+zeroFill(t, 2)+':00'), name: (j+":"+zeroFill(t, 2))});
 				}
+                
+                hoursStr = hoursStr.substr(0, (hoursStr.length - 1));
 				
 				$$("#fromHours").html(html);
 				$$("#untilHours").html(html);
+                
+                if(isIOS()) {
+                    var newPicker2 = app.picker.create({
+                      inputEl: '#fromHoursIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (hoursStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["08:00"]);
+                            },
+                            close: function(picker) {
+                                if(hoursArr.length > 0) {
+                                    hoursArr.forEach(function(h) {
+                                       if(h.name == picker.value[0]) {
+                                           $$("#fromHours").val(h.value);
+                                           var val = h.value;
+                                            var value1 = moment(h.value, "HH:mm:ss");
+                                            var value2 = moment($$("#untilHours").val(), "HH:mm:ss");
+                                            if(value1.isAfter(value2)) {
+                                                $$("#untilHours").val(val);
+                                                newPicker3.setValue([value1.format("HH:mm")]);
+                                            }
+                                       }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    var newPicker3 = app.picker.create({
+                      inputEl: '#untilHoursIOS',
+                        renderToolbar: function () {
+                            return '<div class="toolbar" style=" background: #0096a4;">' +
+                              '<div class="toolbar-inner">' +
+                                '<div class="left">' +
+                                  '' +
+                                '</div>' +
+                                '<div class="right">' +
+                                '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                '</div>' +
+                              '</div>' +
+                            '</div>';
+                          },
+                        cols: [
+                          {
+                            textAlign: 'center',
+                            values: (hoursStr.split(','))
+                          }
+                        ],
+                        on: {
+                            init: function() {
+                                this.setValue(["08:00"]);
+                            },
+                            close: function(picker) {
+                                if(hoursArr.length > 0) {
+                                    hoursArr.forEach(function(h) {
+                                       if(h.name == picker.value[0]) {
+                                           $$("#untilHours").val(h.value);
+                                           var val = h.value;
+                                            var value1 = moment(h.value, "HH:mm:ss");
+                                            var value2 = moment($$("#fromHours").val(), "HH:mm:ss");
+                                            if(value1.isBefore(value2)) {
+                                                $$("#fromHours").val(val);
+                                                newPicker2.setValue([value1.format("HH:mm")]);
+                                            }
+                                       }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                }
+                else {                    
+                    $$("#fromHours").change(function() {
+                        var val = this.value;
+                        var value1 = moment(this.value, "HH:mm:ss");
+                        var value2 = moment($$("#untilHours").val(), "HH:mm:ss");
+                        if(value1.isAfter(value2)) {
+                            $$("#untilHours").val(val);
+                        }
+                    });
+				    $$("#untilHours").change(function() {
+                        var val = this.value;
+                        var value1 = moment(this.value, "HH:mm:ss");
+                        var value2 = moment($$("#fromHours").val(), "HH:mm:ss");
+                        if(value1.isBefore(value2)) {
+                            $$("#fromHours").val(val);
+                        }
+                    });
+                }
+                
+                var taxArrr = [];
 				app.customFunctions.showIndicator();
 				API.loadOffers({
 					i: userInfo.reg_password
@@ -4866,18 +6154,54 @@ var app = new Framework7({
 					var data = info;
 					
 					$$("#saveOffers").html("Alta");
-					
+					var taxIOS = "Tratamientos,";
 					if(info.tratamientos.length > 0) {
+                        taxArrr = info.tratamientos;
 						var html = '<option value="">Tratamientos</option>';
 						info.tratamientos.forEach(function(t) {
 							html += '<option value="'+t.reg+'">'+t.tratamiento+'</option>';
+                            taxIOS += t.tratamiento + ",";
 						});
 						$$("#tratamientosOfertas").html(html);
 					}
-					
-					if(typeof query.i != "undefined") {
+                    if(typeof query.i != "undefined") {
 						$$("#tratamientosOfertas").val(query.i);
 					}
+                    
+                    if(isIOS()) {
+                        var newPicker = app.picker.create({
+                          inputEl: '#tratamientosOfertasIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (taxIOS == "" ? [] : taxIOS.split(','))
+                              }
+                            ],
+                            on: {
+                                close: function(picker) {
+                                    if(taxArrr.length > 0) {
+                                        taxArrr.forEach(function(t) {
+                                           if(t.tratamiento == picker.value[0]) {
+                                               $$("#tratamientosOfertas").val(t.reg);
+                                           }
+                                        }); 
+                                    }
+                                }
+                            }
+                        });
+                    }
 					
 					app.customFunctions.hideIndicator();
 
@@ -5319,6 +6643,18 @@ var app = new Framework7({
 				var i = app.views.main.router.currentRoute.query.p;
 				app.customFunctions.showIndicator();
                 
+                if(isIOS()) {
+                    $$("#profesionalesCentroRankingAndroid").css("display", "none");
+                    $$("#profesionalesCentroRankingIOS").css("display", "");
+                }
+                else {
+                    $$("#profesionalesCentroRankingIOS").css("display", "none");
+                    $$("#profesionalesCentroRankingAndroid").css("display", "");
+                }
+                
+                var profesionalesRankingArr = [];
+                var profesionalesRankingArr = "Seleccione,";
+                
                 app.range.setValue(".rangePCenter", 0);
                 app.range.setValue(".rangeACenter", 0);
                 app.range.setValue(".rangeTCenter", 0);
@@ -5332,7 +6668,6 @@ var app = new Framework7({
                     d: moment().format('YYYY-MM-DD')
 				}, function (json) {
                     
-                    console.log(json);
                     prof = json.profesionales;
                     
                     $$("#labelTitleUserRankingCenter").html(json.nombre);
@@ -5342,6 +6677,44 @@ var app = new Framework7({
                         html += '<option value="'+p.reg_password+'">'+p.nombre+" "+p.apellidos+'</option>';
                     });
                     $$("#professionalsRankingCenter").html(html);
+                    
+                    if(isIOS()) {
+                        var newPicker = app.picker.create({
+                          inputEl: '#professionalsRankingCenterIOS',
+                            renderToolbar: function () {
+                                return '<div class="toolbar" style=" background: #0096a4;">' +
+                                  '<div class="toolbar-inner">' +
+                                    '<div class="left">' +
+                                      '' +
+                                    '</div>' +
+                                    '<div class="right">' +
+                                    '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>';
+                              },
+                            cols: [
+                              {
+                                textAlign: 'center',
+                                values: (profesionalesRankingArr.split(','))
+                              }
+                            ],
+                            on: {
+                                init: function() {
+                                    this.setValue(["Seleccione"]);
+                                },
+                                close: function(picker) {
+                                    if(prof.length > 0) {
+                                        prof.forEach(function(p) {
+                                           if((p.nombre + " " + p.apellidos) == picker.value[0]) {
+                                               $$("#professionalsRankingCenter").val(p.reg_password);
+                                           }
+                                        }); 
+                                    }
+                                }
+                            }
+                        });
+                    }
                     
                     $$("#professionalsRankingCenter").change(function() {
                         app.range.setValue(".rangePCenter", 0);
@@ -5812,7 +7185,7 @@ var app = new Framework7({
 							offer = "";
 							if(typeof t.oferta.precio != "undefined" && t.oferta.precio != "") {
                                 offer = '<p>Promoción ';
-                                if(moment(t.oferta.fech_fin, "YYYY-MM-DD").isAfter(moment())) {
+                                if(moment(t.oferta.fech_fin, "YYYY-MM-DD").isAfter(moment()) && t.oferta.hora_ini != t.oferta.fech_fin) {
                                     offer = ' del: ' + moment(t.oferta.fech_ini, "YYYY-MM-DD").format("DD/MM/YYYY") + ' al ' + moment(t.oferta.fech_fin, "YYYY-MM-DD").format("DD/MM/YYYY")  + " de " + moment(t.oferta.hora_ini, "HH:mm:ss").format("HH:mm") + " a " + moment(t.oferta.hora_fin, "HH:mm:ss").format("HH:mm");
                                 }
                                 if(parseInt(t.oferta.dto) > 0) {
@@ -5954,8 +7327,6 @@ var app = new Framework7({
                 mapReady = true;
 			});
             
-            
-
 			if (cordovaIfDefined && device.platform == "Android" && parseFloat(device.version) >= 5) {
 				$$('.framework7-root').css({
 					marginTop: '24px',
@@ -6016,6 +7387,12 @@ var app = new Framework7({
 				var password = $$("#password").val();
 				document.getElementById('email').checkValidity();
 				document.getElementById('password').checkValidity();
+                if(email.length == 9) {
+                    var isnum = /^\d+$/.test(email);
+                    if(isnum) {
+                       email = "0034" + email;
+                    }
+                }
 				if (!isEmpty(email) && !isEmpty(password)) {
 					$$('#login-check-access').addClass('logining');
 					API.auth({
@@ -6029,6 +7406,7 @@ var app = new Framework7({
 					}, function (json) {
 						$$('#login-check-access').removeClass('logining');
 						if (json.msg == "OK") {
+                            logged = 1;
 							json.info.password = password;
 							app.data('userInfo', json.info);
 							if(parseInt(json.info.usuario) > 0) {
@@ -6103,6 +7481,7 @@ var app = new Framework7({
 					}, function (json) {
 						app.customFunctions.hideIndicator();
 						if (json.msg == "OK") {
+                            logged = 1;
 							json.info.password = password;
 							json.info["huellas"] = 0;
 							app.data('userInfo', json.info);
@@ -6153,7 +7532,7 @@ var app = new Framework7({
                         if($$("#checkCode").val() == codeConfirm) {
                             if(typeof query.update != "undefined") {
                                 var userInfo = app.data('userInfo');
-                                var url = API.host + '/api/operaciones-pruebas.php';
+                                var url = API.host + '/api/operaciones.php';
                                 app.customFunctions.showIndicator();
                                 var acept = "[]";
                                 if(typeof query.registerData.acept != "undefined") {
@@ -6315,6 +7694,52 @@ var app = new Framework7({
 					app.panel.left.open();
 				}
 			});
+            
+            $$(document).on('change', '#tratamientosTarifas', function () {
+				var value = this.value;
+                console.log(value);
+				if(value > 0) {
+					var band = true;
+					taxsArr.forEach(function(t) {
+						if(t.reg == value) {
+							if(typeof t.info.explicacion != "undefined") {
+								$$("#tratamientosTarifas").val(t.info.reg_tratamientos);
+								$$("#descripcionTax").val(t.info.explicacion);
+								$$("#priceTax").val(t.info.precio);
+								$$("#timeTax").val(t.info.tiempo);
+
+								if(t.info.oferta > 0) {
+									//$$("#offert").click();
+									$$("#offert").prop("checked", true);
+								}
+
+								$$("#deleteTaxs").css("display", "");
+								$$("#saveTaxs").html("Alta-Modif");
+								band = false;
+							}
+							else {
+								$$("#saveTaxs").html("Alta");
+							}
+						}
+					});
+					if(band) {
+						$$("#descripcionTax").val("");
+						$$("#priceTax").val("");
+						$$("#timeTax").val("");
+						$$("#deleteTaxs").css("display", "none");
+						$$("#offert").prop("checked", false);
+						$$("#saveTaxs").html("Alta");
+					}
+				}
+				else {
+					$$("#descripcionTax").val("");
+					$$("#priceTax").val("");
+					$$("#timeTax").val("");
+					$$("#deleteTaxs").css("display", "none");
+					$$("#offert").prop("checked", false);
+					$$("#saveTaxs").html("Alta");
+				}
+			});
 			
 			$$(document).on('change', 'input[type=checkbox][name=actionsQuoteProfessional]', function() {
 				switch(parseInt(this.value)) {
@@ -6374,8 +7799,20 @@ var app = new Framework7({
 				}
 				$$("input[type=checkbox][name=actionsQuoteProfessional]:checked").prop("checked", false);
 			});
-
-			$$(document).on('keypress', '.form-wrapper input', function (e) {				
+            
+            /*
+            $$(document).on('change', '.smart-select-page input[type=radio]', function () {
+                if(app.views.main.router.currentRoute.path.indexOf("taxs") >= 0) {
+                    $$('.smart-select-page .back').trigger("click");
+                }
+            });*/
+            /*
+			$$(document).on('click', '#openSheet', function (e) {
+                setTimeout(function() {
+                    $$(".sheet-close").html("<i class="fas fa-check"></i>");
+                }, 500);
+            });*/
+			$$(document).on('keypress', '.form-wrapper input', function (e) {
 				var $$input = $$(this);
 				var $$form = $$input.closest('.form-wrapper');				
 				if(e.keyCode == 13) {
@@ -6486,7 +7923,13 @@ var app = new Framework7({
 }).on('popupOpened', function (popup) {
 	
 }).on('routeChanged', function (newRoute, previousRoute, router) {
-    if(app.views.main.router.currentRoute.path != "/location/" && app.views.main.router.currentRoute.path != "/request-agenda-user/" && app.views.main.router.currentRoute.path != "/my-account/" && app.views.main.router.currentRoute.path != "/complement/") {
+    
+    if($$(".sheet-modal").hasClass("modal-in")) {
+        app.picker.close();
+    }
+    
+    if(app.views.main.router.currentRoute.path != "/location/" && app.views.main.router.currentRoute.path != "/request-agenda-user/" && app.views.main.router.currentRoute.path != "/my-account/" && app.views.main.router.currentRoute.path != "/complement/" && app.views.main.router.currentRoute.path != "/agenda/" && app.views.main.router.currentRoute.path != "/taxs/") {
+        //console.log(app.views.main.router.currentRoute.path);
         app.views.main.router.refreshPage();
     }
 }).on('searchbarEnable', function (searchbar) {
@@ -6537,72 +7980,67 @@ var app = new Framework7({
 
 var taxsArr = [];
 var firstTax = true;
+var pickerIOS;
+var existPicker = false;
 function getTaxs() {
 	app.customFunctions.showIndicator();
 	var userInfo = app.data('userInfo');
-	
 	API.loadTaxs({
 		i: userInfo.reg_password
 	}, function (json) {
-		
 		var html = '<option value="0">Tratamiento</option>';
+        var taxIOS = "";
 		if(json.tratamientos.length > 0) {
 			taxsArr = json.tratamientos;
 			json.tratamientos.forEach(function(t) {
 				html += '<option value="'+t.reg+'">'+t.tratamiento+'</option>';
+                taxIOS += t.tratamiento + ",";
 			});
 		}
+        
+        if(isIOS()) {
+            if(!existPicker) {
+                existPicker = true;
+                pickerIOS = app.picker.create({
+                  inputEl: '#tratamientosTarifasIOS',
+                    renderToolbar: function () {
+                        return '<div class="toolbar" style=" background: #0096a4;">' +
+                          '<div class="toolbar-inner">' +
+                            '<div class="left">' +
+                              '' +
+                            '</div>' +
+                            '<div class="right">' +
+                            '<a href="javascript: app.picker.close();" class="link" style=" color: white !important;"><i class="fas fa-check"></i></a>' + //sheet-close
+                            '</div>' +
+                          '</div>' +
+                        '</div>';
+                      },
+                    cols: [
+                      {
+                        textAlign: 'center',
+                        values: (taxIOS == "" ? [] : taxIOS.split(','))
+                      }
+                    ],
+                    on: {
+                        close: function(picker) {
+                            if(taxsArr.length > 0) {
+                                taxsArr.forEach(function(t) {
+                                   if(t.tratamiento == picker.value[0]) {
+                                       $$("#tratamientosTarifas").val(t.reg);
+                                       $$("#tratamientosTarifas").trigger("change");
+                                   }
+                                });
+                            }
+                        }
+                    }
+                });
+            }
+        }
 		
 		app.customFunctions.hideIndicator();
-		
 		if(firstTax) {
 			$$("#tratamientosTarifas").html(html);
 			firstTax = false;
-			
-			$$("#tratamientosTarifas").change(function() {
-				var value = this.value;
-				if(value > 0) {
-					var band = true;
-					taxsArr.forEach(function(t) {
-						if(t.reg == value) {
-							if(typeof t.info.explicacion != "undefined") {
-								$$("#tratamientosTarifas").val(t.info.reg_tratamientos);
-								$$("#descripcionTax").val(t.info.explicacion);
-								$$("#priceTax").val(t.info.precio);
-								$$("#timeTax").val(t.info.tiempo);
-
-								if(t.info.oferta > 0) {
-									//$$("#offert").click();
-									$$("#offert").prop("checked", true);
-								}
-
-								$$("#deleteTaxs").css("display", "");
-								$$("#saveTaxs").html("Alta-Modif");
-								band = false;
-							}
-							else {
-								$$("#saveTaxs").html("Alta");
-							}
-						}
-					});
-					if(band) {
-						$$("#descripcionTax").val("");
-						$$("#priceTax").val("");
-						$$("#timeTax").val("");
-						$$("#deleteTaxs").css("display", "none");
-						$$("#offert").prop("checked", false);
-						$$("#saveTaxs").html("Alta");
-					}
-				}
-				else {
-					$$("#descripcionTax").val("");
-					$$("#priceTax").val("");
-					$$("#timeTax").val("");
-					$$("#deleteTaxs").css("display", "none");
-					$$("#offert").prop("checked", false);
-					$$("#saveTaxs").html("Alta");
-				}
-			});
 		}				
 	}, function (error) {
 		//console.log(error);

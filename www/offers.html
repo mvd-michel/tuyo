@@ -18,13 +18,23 @@
 		<div>
 			<div id="" class="list no-hairlines-md" style="margin-bottom: 0;margin-top:  0;">
 				<ul>
-					<li class="item-content item-input item-input-with-value" style=" border-top: 1px solid rgba(0, 0, 0, 0.04); margin-left: 15px; padding-left: 0; margin-right: 15px; padding-right: 0;">
+					<li id="tratamientoOfertaAndroid" class="item-content item-input item-input-with-value" style=" border-top: 1px solid rgba(0, 0, 0, 0.04); margin-left: 15px; padding-left: 0; margin-right: 15px; padding-right: 0;">
 						<div class="item-inner" style=" padding-right: 0;">
 							<div class="item-title item-label">Tratamientos</div>
 							<div class="item-input-wrap">
 								<select placeholder="" class="input-with-value" id="tratamientosOfertas"><option value="">Tratamiento</option></select>
 							</div>
 						</div>
+					</li>
+					<li id="tratamientoOfertaIOS" style="display: none;">
+					    <div class="item-content item-input">
+                            <div class="item-inner">
+                              <div class="item-title item-label">Tratamientos</div>
+                              <div class="item-input-wrap">
+                                <input type="text" placeholder="Tratamiento" id="tratamientosOfertasIOS" readonly="readonly"/>
+                              </div>
+                            </div>
+                        </div>
 					</li>
 				</ul>
 			</div>
@@ -50,7 +60,7 @@
 							</div>
 						</div>
 					</li>
-					<li class="item-content item-input item-input-with-value row" style=" margin-left: 15px; padding-left: 0; margin-right: 15px; padding-right: 0;">
+					<li id="containerHoursOfferAndroid" class="item-content item-input item-input-with-value row" style=" margin-left: 15px; padding-left: 0; margin-right: 15px; padding-right: 0;">
 						<div class="item-inner col-50" style="padding-right: 0;padding-top:  0; ">
 							<div class="item-title item-label">Desde las</div>
 							<div class="item-input-wrap">
@@ -63,6 +73,20 @@
 								<select placeholder="" class="input-with-value" id="untilHours"><option value="">Tratamiento</option></select>
 							</div>
 						</div>
+					</li>
+					<li id="containerHoursOfferIOS" class="row" style="display: none; margin-left: 10px; margin-right: 10px;">
+					    <div class="item-inner col-50" style="padding-right: 0;padding-top:  0;">
+                          <div class="item-title item-label" style=" position: absolute; top: -5px;">Desde las</div>
+                          <div class="item-input-wrap">
+                            <input type="text" placeholder="Desde" id="fromHoursIOS" readonly="readonly"/>
+                          </div>
+                        </div>
+					    <div class="item-inner col-50" style="padding-right: 0;padding-top:  0;">
+                          <div class="item-title item-label" style=" position: absolute; top: -5px;">Hasta las</div>
+                          <div class="item-input-wrap">
+                            <input type="text" placeholder="Hasta" id="untilHoursIOS" readonly="readonly"/>
+                          </div>
+                        </div>
 					</li>
 					<li>
 						<a class="item-link smart-select smart-select-init" data-open-in="popover">
